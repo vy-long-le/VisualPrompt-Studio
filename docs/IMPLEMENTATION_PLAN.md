@@ -1,7 +1,7 @@
 # VisualPrompt Studio Product MVP — Implementation Plan
 
-**Status:** Active · **Plan version:** 1.1 · **Date:** 12 October 2026  
-**Implementation status:** M1 Complete; M2 Not Started and next  
+**Status:** Active · **Plan version:** 1.2 · **Date:** 13 October 2026  
+**Implementation status:** M1 Complete; M2 In Progress  
 **Application test status:** M1 type checking, unit tests, production build, and five Edge browser checks passed; mandatory Chrome evidence remains for M7  
 **Canonical document:** `docs/IMPLEMENTATION_PLAN.md`
 
@@ -89,7 +89,7 @@ The following implementation contracts govern the active plan.
 | Milestone | Status | Result or next gate |
 |---|---|---|
 | M1 — Runnable application scaffold | **Complete** | Runnable Home and Build shell; automated M1 checks pass. |
-| M2 — Runtime catalogue and executable-test inputs | **Not Started — next** | Start by reconciling DISC-01 into the versioned runtime catalogue and executable fixture register. |
+| M2 — Runtime catalogue and executable-test inputs | **In Progress** | Reconcile DISC-01 into the versioned runtime catalogue and executable fixture register. |
 | M3 — Pure validator and compiler | **Not Started** | Requires the accepted M2 catalogue and oracles. |
 | M4 — First complete Product flow | **Not Started** | First useful demonstration: Generate/autosave, edit/Copy, reload/load, and Update. |
 | M5 — Complete Product UI and all ten Presets | **Not Started** | Requires the working M4 Product flow. |
@@ -130,11 +130,15 @@ Every milestone starts from the accepted result of its dependencies. Case IDs be
 - The 320 px reflow check passed after the application header was corrected; no horizontal document overflow remained.
 - The dependency lockfile is present. The pinned toolchain is Node `24.21.0`, npm `11.19.0`, Playwright `1.64.0`, TypeScript `6.0.3`, Vite `8.3.4`, Vitest `5.0.3`, and Lucide `1.55.0`.
 - Stable Chrome was unavailable in the inspected environment. This is a recorded M7 prerequisite and does not reopen M1.
+- Git baseline commit `468e7fe` (`Initial VisualPrompt Studio scaffold and documentation`) is pushed to and tracked by `origin/main`; local and remote divergence was `0 0` at the 13 October 2026 audit.
+- A fresh isolated verification of commit `468e7fe` on 13 October 2026 passed TypeScript checking, one Vitest unit test, the Vite production build, and all five Edge Playwright checks. The source checkout remained unchanged during verification.
 
 ### M2 — Runtime catalogue and executable-test inputs
 
-**Status:** Not Started — next  
+**Status:** In Progress — 13 October 2026  
 **Dependency:** M1.
+
+**Current substep:** M2.1 reconciliation is complete in `implementation/M2_CATALOGUE_RECONCILIATION.md`; M2.2 typed runtime catalogue contracts and immutable version constants are next.
 
 **Deliverables**
 
