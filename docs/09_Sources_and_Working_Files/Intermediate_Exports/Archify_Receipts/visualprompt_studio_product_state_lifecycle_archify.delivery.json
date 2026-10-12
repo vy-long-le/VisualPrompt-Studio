@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "18d1aef1-0ede-44fb-8637-5dca8128c038",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "C:\\Users\\LeVy\\Documents\\Codex\\2026-10-07\\let-s-recreate-the-doc-01\\.archify\\lifecycle-visualprompt-regenerate-confirmation-20261008\\candidate.json",
+  "output": "C:\\Users\\LeVy\\Documents\\Codex\\2026-10-07\\let-s-recreate-the-doc-01\\outputs\\VisualPrompt_Studio_Product_State_Lifecycle_archify.html",
+  "specification": {
+    "sha256": "c660de1cc82c727bee42192e0abb1cdf78c1f7f5c94f67ae4811bc1f3f6d3a21",
+    "bytes": 5705
+  },
+  "artifact": {
+    "sha256": "5495be6bccd60206718ccdffac9d62a478ca22a78dfbfef339ac9d88a7a3602b",
+    "bytes": 774783
+  }
+}

@@ -1,0 +1,232 @@
+:root {
+  /* Color */
+  --color-canvas: #f3f1eb;
+  --color-surface: #fbfaf6;
+  --color-surface-strong: #ffffff;
+
+  --color-text: #191919;
+  --color-text-muted: #6a6964;
+  --color-border: #d8d5cc;
+
+  --color-accent: #145a87;
+  --color-accent-strong: #0b3d60;
+  --color-accent-soft: #e4eef3;
+
+  --color-signal: #ef5b3d;
+  --color-success: #27795c;
+
+  /* Typography */
+  --font-sans: "Segoe UI", Arial, sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
+
+  --text-small: 0.8125rem;
+  --text-body: 1rem;
+  --text-lead: 1.125rem;
+  --text-display: clamp(2.25rem, 5vw, 4rem);
+
+  --line-body: 1.5;
+  --line-lead: 1.6;
+  --line-display: 1.1;
+
+  /* Spacing — based on a 4 px unit */
+  --space-1: 0.25rem; /* 4 px */
+  --space-2: 0.5rem; /* 8 px */
+  --space-3: 0.75rem; /* 12 px */
+  --space-4: 1rem; /* 16 px */
+  --space-5: 1.5rem; /* 24 px */
+  --space-6: 2rem; /* 32 px */
+  --space-7: 3rem; /* 48 px */
+  --space-8: 4rem; /* 64 px */
+
+  /* Shape */
+  --radius-control: 7px;
+  --radius-panel: 10px;
+
+  /* Effects */
+  --shadow-panel: 0 18px 45px rgb(25 25 25 / 8%);
+  --focus-ring: 3px solid var(--color-accent);
+
+  /* Layout */
+  --content-max: 80rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  color: var(--color-text);
+  background: var(--color-canvas);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--line-body);
+}
+
+button {
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: 10px var(--space-4);
+  font: inherit;
+  cursor: pointer;
+}
+
+button.primary {
+  color: var(--color-surface-strong);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+button.primary:hover {
+  background: var(--color-accent-strong);
+  border-color: var(--color-accent-strong);
+}
+
+.primary-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.nav-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.nav-item[aria-current="page"] {
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+  border-color: var(--color-accent);
+  font-weight: 700;
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  color: currentColor;
+  pointer-events: none;
+}
+
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--space-1);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+main {
+  width: min(100%, var(--content-max));
+  margin-inline: auto;
+  padding: var(--space-7) var(--space-6);
+}
+
+.hero {
+  padding-block: var(--space-5) var(--space-7);
+}
+
+h1 {
+  max-width: 53rem;
+  margin: var(--space-4) 0;
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 400;
+  line-height: var(--line-display);
+}
+
+.eyebrow,
+.status {
+  color: var(--color-accent);
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+.lead {
+  max-width: 42.5rem;
+  color: var(--color-text-muted);
+  font-size: var(--text-lead);
+  line-height: var(--line-lead);
+}
+
+.workflow-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.card {
+  min-width: 0;
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+}
+
+@media (max-width: 1179px) {
+  .workflow-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .card:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767px) {
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-4);
+  }
+
+  .primary-nav {
+    width: 100%;
+  }
+
+  .nav-item {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  main {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .workflow-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card:first-child {
+    grid-column: auto;
+  }
+}

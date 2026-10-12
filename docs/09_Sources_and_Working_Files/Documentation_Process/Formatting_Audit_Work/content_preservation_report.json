@@ -1,0 +1,23 @@
+[
+  {
+    "file": "06_Testing\\Test_Plans\\VisualPrompt_Studio_DOC-06_Test_Release_and_Maintenance_Plan_v1.0.docx",
+    "original_sha256": "75b3240adad2244d2d418f29a8bb9ffcd258bbf53dfe81a1436a997dc381e197",
+    "formatted_sha256": "b9f72abec72f461b853b4c435cab77c76752fd057746bba61203f579b15e7f58",
+    "body_content_tables_links_fields_media_numbering_preserved": true,
+    "table_count": 15
+  },
+  {
+    "file": "VisualPrompt_Studio_Discovery_Dossier_v1.0.docx",
+    "original_sha256": "5b829da423e837c65e15639605b05ffc3b634386067e50c63614015470b882b9",
+    "formatted_sha256": "8145a950744f024633bf14431c552fb696b2c27e023e46e228472c1732b5cf32",
+    "body_content_tables_links_fields_media_numbering_preserved": true,
+    "table_count": 9
+  },
+  {
+    "file": "DISC01_Research_Dossier_v1.0.docx",
+    "original_sha256": "3496209ad0229672c4acd32f6e7162a85569b07d19ad71b29b2922a4b7ed590c",
+    "formatted_sha256": "0a89a8dd73977918b53659b3ff07f3aa72f4e8172c8b17c5cbff4b0de8e8ca39",
+    "body_content_tables_links_fields_media_numbering_preserved": true,
+    "table_count": 109
+  }
+]

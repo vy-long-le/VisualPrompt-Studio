@@ -1,0 +1,1644 @@
+{
+  "document": "C:\\Users\\LeVy\\Documents\\Codex\\2026-10-07\\let-s-recreate-the-doc-01\\outputs\\VisualPrompt_Studio\\09_Sources_and_Working_Files\\Documentation_Process\\Formatting_Audit_Work\\builder_verification\\VisualPrompt_Studio_DOC-06_Test_Release_and_Maintenance_Plan_v1.0.docx",
+  "caseCount": 83,
+  "caseGroupCount": 8,
+  "frCount": 111,
+  "nfrCount": 12,
+  "unmappedFRs": [],
+  "unknownExplicitFRs": [],
+  "initialStatus": "Not Run",
+  "newOpenItems": 0,
+  "carriedOpenItems": [
+    "OQ-001",
+    "OQ-003",
+    "DR-005"
+  ],
+  "cases": [
+    {
+      "id": "CAT-01",
+      "refs": "FR-001–005, FR-070, FR-071–075, FR-091",
+      "title": "Phạm vi Workflow",
+      "action": "Load catalogue runtime đã đối chiếu quyết định chủ dự án; thử vào mỗi card.",
+      "expected": "Chỉ Product Advertising and Photography cho phép Build trong release này; Workflow chưa nghiên cứu có trạng thái trung thực, không tạo flow giả. FR-071–075 thuộc release sau.",
+      "level": "Unit / build-time",
+      "status": "Not Run"
+    },
+    {
+      "id": "CAT-02",
+      "refs": "FR-010–019, FR-104",
+      "title": "Toàn vẹn Preset/profile",
+      "action": "Duyệt cả 10 Presets và 10 profiles; inject ID trùng, field/profile reference thiếu, default ngoài dictionary.",
+      "expected": "Bản hợp lệ qua guard; mỗi lỗi tham chiếu bị build-time validation chặn. Start Blank không được tính thành Preset thứ 11; sourcePresetId không quyết định profile.",
+      "level": "Unit / build-time",
+      "status": "Not Run"
+    },
+    {
+      "id": "CAT-03",
+      "refs": "FR-020–025, FR-104",
+      "title": "30 fields và grouping",
+      "action": "Duyệt 30 field IDs, loại control, limits, allowed values; đối chiếu mapping vào 5 nhóm Build.",
+      "expected": "Mỗi field xuất hiện đúng một lần; không mất/trùng field. Hai nhóm task-critical mở mặc định; 9 research groups không bị biến thành 9 nhóm giao diện.",
+      "level": "Unit / build-time",
+      "status": "Not Run"
+    },
+    {
+      "id": "CAT-04",
+      "refs": "FR-030–039, FR-104",
+      "title": "Toàn vẹn rule",
+      "action": "Duyệt V01–V14 và mọi fieldIds; inject severity/ID/reference không hợp lệ.",
+      "expected": "Đúng 6 errors và 8 warnings theo contract; invalid rule/reference chặn catalogue build; mọi issue có ruleId, severity, explanation, fieldIds.",
+      "level": "Unit / build-time",
+      "status": "Not Run"
+    },
+    {
+      "id": "CAT-05",
+      "refs": "FR-013, FR-095–098, FR-104",
+      "title": "Encyclopedia runtime",
+      "action": "Duyệt cả 30 field entries; search tên và thuật ngữ liên quan; kiểm tra English copy.",
+      "expected": "Mỗi field có entry khớp stable ID; tìm được nội dung tương ứng; không đưa Vietnamese research copy hoặc language switch giả vào UI.",
+      "level": "Unit / build-time",
+      "status": "Not Run"
+    },
+    {
+      "id": "CAT-06",
+      "refs": "FR-093–094, FR-107–109, FR-119",
+      "title": "Preview mapping và provenance",
+      "action": "Đối chiếu 10 Preset IDs với 6 ảnh mẫu hiện có; thay đường dẫn bằng asset thiếu.",
+      "expected": "Map bằng ID được duyệt, không suy từ tên ảnh; mỗi Preset có đúng ảnh hoặc fallback, tên/intent/action còn dùng được. Provenance nói rõ direct art-direction prompt, không chứng minh full compiler hoặc image fidelity.",
+      "level": "Unit / build-time",
+      "status": "Not Run"
+    },
+    {
+      "id": "CAT-07",
+      "refs": "FR-104–106, FR-112",
+      "title": "Reconcile research → runtime",
+      "action": "So sánh adapter với JSON archival: runtimeReady:false, approved:false, scopeHint cũ và nội dung Vietnamese.",
+      "expected": "Checklist ghi từng chuyển đổi theo baseline mới; source archival không bị sửa âm thầm. Không coi research flags là approval runtime; không thêm Admin hoặc form-builder để giải quyết reconciliation.",
+      "level": "Unit / build-time",
+      "status": "Not Run"
+    },
+    {
+      "id": "CAT-08",
+      "refs": "FR-030–039, FR-040–049",
+      "title": "Port 372 fixtures",
+      "action": "Với từng fixtureId, xác định concrete input, oracle, loại unit và expected result trước khi chạy implementation.",
+      "expected": "Fixture thiếu executable input được ghi Blocked cho test instance, không tự đánh Pass. Research actual/result không được dùng làm actual của production run; giữ mapping fixtureId → case/instance.",
+      "level": "Unit / build-time",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-01",
+      "refs": "FR-030–031, FR-038, FR-068",
+      "title": "V01: dữ liệu bắt buộc",
+      "action": "Tạo valid base; lần lượt blank/whitespace product-description, use-case và Prompt name khi tạo record.",
+      "expected": "Thiếu subject/use-case cho V01 theo contract; name blank bị record guard chặn riêng. Generate/Remix không compile hoặc ghi record khi còn error.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-02",
+      "refs": "FR-032, FR-068, FR-079",
+      "title": "V02: shape, enum, limits",
+      "action": "Parameterize unknown field, non-string, fixed choice lạ, controls trái phép, max−1/max/max+1 Unicode scalars cho mỗi giới hạn.",
+      "expected": "Payload ngoài contract bị error; giá trị đúng boundary được chấp nhận. Không silently coerce/drop keys hoặc đếm UTF-16 code units thay Unicode scalars.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-03",
+      "refs": "FR-030–039",
+      "title": "V03: external reference",
+      "action": "Chọn external-reference mode với reference-notes blank rồi bổ sung notes hợp lệ.",
+      "expected": "Blank tạo blocking error gắn đúng field; bổ sung notes và chạy lại loại error. Không yêu cầu upload ảnh hoặc gọi external API.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-04",
+      "refs": "FR-030–039",
+      "title": "V04: Render supplied copy",
+      "action": "Chọn Render supplied copy; exact-copy blank/whitespace rồi nonblank.",
+      "expected": "Blank bị chặn; nonblank được xét theo các rule còn lại. Thông báo chỉ đúng copy fields, không lẫn điều kiện preserve physical label.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-05",
+      "refs": "FR-030–039",
+      "title": "V05: No added copy",
+      "action": "Chọn No added copy với exact-copy nonblank; sau đó bỏ exact-copy.",
+      "expected": "Nonblank tạo error; blank loại error. Product label cần giữ không tự bị suy diễn thành added copy.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-06",
+      "refs": "FR-030–039",
+      "title": "V06: primary listing + supplied copy",
+      "action": "Chọn Google Merchant primary image và Render supplied copy; đổi từng operand sang non-match.",
+      "expected": "Đúng curated match tạo error; mỗi non-match không tạo V06. Không suy diễn arbitrary free text thành match.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-07",
+      "refs": "FR-033–039",
+      "title": "V07: detail target",
+      "action": "Dùng tight-detail/macro shot với detail-target blank; thử nonblank và non-matching shot.",
+      "expected": "Chỉ curated match + blank tạo warning; có target hoặc shot khác loại warning.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-08",
+      "refs": "FR-033–039",
+      "title": "V08: arrangement/angle",
+      "action": "Dùng overhead flat-lay arrangement với oblique canonical angle; thay từng operand.",
+      "expected": "Match tạo warning ở các field liên quan; non-match không warning; không block bằng error.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-09",
+      "refs": "FR-033–039",
+      "title": "V09: light/shadow",
+      "action": "Parameterize curated soft diffused/broad high-key với crisp graphic shadow và các non-matches.",
+      "expected": "Cặp mâu thuẫn tạo warning; không mở rộng semantic rule sang custom text không có trong contract.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-10",
+      "refs": "FR-033–039",
+      "title": "V10: product/copy space",
+      "action": "Thử product left + copy left, product right + copy right; thử hai phía khác nhau.",
+      "expected": "Hai same-side matches tạo warning, opposite-side không tạo V10; issue chỉ đúng các fields.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-11",
+      "refs": "FR-033–039",
+      "title": "V11: listing/props",
+      "action": "Primary listing với props nonblank rồi blank hoặc use-case khác.",
+      "expected": "Chỉ match tạo warning; không xóa props hoặc tự đổi use-case.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-12",
+      "refs": "FR-033–039",
+      "title": "V12: reference/preserve",
+      "action": "External-reference mode với preserve-details blank rồi nonblank/non-match mode.",
+      "expected": "Match tạo warning; field mapping chính xác; reference-notes error vẫn ưu tiên nếu đồng thời tồn tại.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-13",
+      "refs": "FR-033–039",
+      "title": "V13: listing/copy reserve",
+      "action": "Primary listing + Reserve space for later copy; thử policy/use-case khác.",
+      "expected": "Match tạo warning; không được coi copy-space reservation là supplied copy error.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-14",
+      "refs": "FR-019, FR-033–039",
+      "title": "V14: scale profile",
+      "action": "Dùng product-p06-mold với scale-cue blank rồi nonblank; đổi preset fields nhưng giữ profile.",
+      "expected": "Blank ở profile p06 tạo warning; nonblank loại warning. Field customization không đổi templateProfileId nên không né V14.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-15",
+      "refs": "FR-030–039, FR-084, FR-102",
+      "title": "Errors + warnings cùng lúc",
+      "action": "Inject ít nhất 2 errors và 2 warnings vào Generate và Remix; sửa errors rồi invoke lại.",
+      "expected": "Errors chặn compile/write dù warnings cũng có; tất cả issue được trình bày và định vị. Sau khi errors hết, warnings mới cho phép explicit confirmation.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-16",
+      "refs": "FR-034–039, FR-084",
+      "title": "Confirm, cancel và refresh",
+      "action": "Với warnings-only, thử confirm, cancel/Escape, sửa draft trong lúc pending rồi invoke lại.",
+      "expected": "Confirm hợp lệ mới compile/save; cancel không mutation. Draft thay đổi làm confirmation cũ mất hiệu lực; validator tính lại, không dùng cached approval.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "VAL-17",
+      "refs": "FR-036–039, FR-068, FR-079",
+      "title": "Write-time revalidation",
+      "action": "Sau bước UI validation, thay invalid config hoặc record metadata trước store write; chạy Save/Update.",
+      "expected": "Full configuration, record và next envelope được validate ngay trước write; lỗi chặn write và giữ draft/stored record cũ, không chỉ dựa validation trước đó.",
+      "level": "Unit + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "CMP-01",
+      "refs": "FR-040–042, FR-076",
+      "title": "10 profile molds",
+      "action": "Dùng valid base + defaults của từng p01–p10; compile với product-molds-1.0.0.",
+      "expected": "Output English raw Markdown, Balanced; sections/hierarchy/order theo profile tương ứng. Oracle là contract được duyệt, không snapshot lấy từ implementation đang kiểm thử.",
+      "level": "Unit",
+      "status": "Not Run"
+    },
+    {
+      "id": "CMP-02",
+      "refs": "FR-041, FR-066",
+      "title": "Pure/deterministic",
+      "action": "Compile cùng immutable input nhiều lần, thay clock/DOM/storage mocks bên ngoài.",
+      "expected": "Output byte-identical; không dùng DOM, clock, random, storage hoặc API. Input object không bị mutate.",
+      "level": "Unit",
+      "status": "Not Run"
+    },
+    {
+      "id": "CMP-03",
+      "refs": "FR-043–044",
+      "title": "Optional omission",
+      "action": "Lần lượt blank từng optional field và toàn bộ optional section; dùng filled counterparts.",
+      "expected": "Bỏ cả clause/section rỗng đúng contract; không để dangling heading, placeholder, null/undefined hoặc trường lặp lại.",
+      "level": "Unit",
+      "status": "Not Run"
+    },
+    {
+      "id": "CMP-04",
+      "refs": "FR-019, FR-040–049",
+      "title": "Unknown contract",
+      "action": "Inject workflow/profile/compilerVersion không hỗ trợ, field lạ, non-string và invalid fixed choice.",
+      "expected": "Reject rõ ràng trước output; không fallback sang profile gần giống. Unknown version của saved record cần reviewed migration; không thay stored generated/edited text.",
+      "level": "Unit",
+      "status": "Not Run"
+    },
+    {
+      "id": "CMP-05",
+      "refs": "FR-040–049",
+      "title": "Ordinary normalization",
+      "action": "Dùng NFC/decomposed accents, leading/trailing/multiple whitespace và mixed case ở ordinary fields.",
+      "expected": "NFC + trim + collapse whitespace theo contract; giữ case/wording, không dịch hoặc sáng tác nội dung mới.",
+      "level": "Unit",
+      "status": "Not Run"
+    },
+    {
+      "id": "CMP-06",
+      "refs": "FR-040–049",
+      "title": "Exact-copy fidelity",
+      "action": "Dùng decomposed Unicode, spaces hai đầu/nội bộ, quotes, LF/CRLF/CR, whitespace-only trong exact-copy.",
+      "expected": "Không NFC/trim/collapse exact-copy; chỉ newline CRLF/CR → LF. Whitespace-only được coi blank; JSON-quoted literal giữ nội dung và escape quotes/backslash đúng contract.",
+      "level": "Unit",
+      "status": "Not Run"
+    },
+    {
+      "id": "CMP-07",
+      "refs": "FR-040–049",
+      "title": "Literal substitution",
+      "action": "User text chứa {field}, {{nested}}, $&, $1 và backslash; compile một lần.",
+      "expected": "Placeholder substitution one-pass callback; user braces/dollar không bị interpret hoặc recursive substitution. Nội dung xuất ra đúng escaped literal.",
+      "level": "Unit",
+      "status": "Not Run"
+    },
+    {
+      "id": "CMP-08",
+      "refs": "FR-040–049",
+      "title": "Markdown structural escaping",
+      "action": "Parameterize backslash, backtick, *, _, [, ], <, >, # trong ordinary free text; thử HTML/script-like text.",
+      "expected": "Escape đúng contract, không phá cấu trúc Markdown; UI không thực thi user text. Exact-copy theo JSON literal riêng, không double-normalize.",
+      "level": "Unit",
+      "status": "Not Run"
+    },
+    {
+      "id": "CMP-09",
+      "refs": "FR-002–005, FR-011, FR-040–049",
+      "title": "Start Blank neutral",
+      "action": "Start Blank, chỉ nhập required values, chọn neutral blank profile theo contract.",
+      "expected": "Không kế thừa Preset defaults/provenance; output chỉ có required clauses và optional đã nhập. Không suy ra art-direction values ngoài input.",
+      "level": "Unit",
+      "status": "Not Run"
+    },
+    {
+      "id": "CMP-10",
+      "refs": "FR-040–049, FR-076",
+      "title": "Copy policies và field-once",
+      "action": "Parameterize ba copy-policy variants, full-filled 30 fields và optional empties.",
+      "expected": "Trusted profile order, mỗi field được emit đúng vị trí một lần; copy instruction đúng policy, không đưa field debug/CLI flags hoặc UI metadata vào prompt.",
+      "level": "Unit",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-01",
+      "refs": "FR-001–005, FR-010–019",
+      "title": "Apply/override/profile",
+      "action": "Apply từng Preset, chỉnh nhiều fixed/suggested/free fields, Generate, save/load và Remix.",
+      "expected": "Đúng structured defaults; overrides giữ nguyên đến thao tác chủ ý; templateProfileId ổn định, sourcePresetId chỉ provenance. Subject facts không được Preset tự bịa.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-02",
+      "refs": "FR-010–025",
+      "title": "Start Blank/reset/stale",
+      "action": "Apply Preset rồi Start Blank; tạo output rồi đổi config field.",
+      "expected": "Blank bỏ Preset-controlled configuration theo blank contract; sau config change output có stale indication, không tự regenerate hoặc reverse-update config.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-03",
+      "refs": "FR-045–049, FR-077",
+      "title": "Manual edit/effective text",
+      "action": "Generate rồi sửa textarea; Copy; save/load; thử không có editedPrompt.",
+      "expected": "Config bất biến bởi text edit; effectivePrompt = editedPrompt ?? generatedPrompt; Copy và persisted edited text đúng nội dung.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-04",
+      "refs": "FR-077",
+      "title": "Regenerate edited",
+      "action": "Với editedPrompt tồn tại, invoke Regenerate rồi cancel và confirm trong hai instance; thử unedited counterpart.",
+      "expected": "Cancel giữ config/output/edit/store; confirm thay output mới vào chỗ edited text, effectivePrompt bằng output mới theo AC-028/029. Unedited không hỏi mất manual edit không tồn tại.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-05",
+      "refs": "FR-050–054, FR-068, FR-083–084",
+      "title": "Generate autosave",
+      "action": "Valid draft, default No Project hoặc chọn existing/new Project; Generate.",
+      "expected": "Destination hiện rõ trước action; compile + successful write tạo Saved Prompt mới đúng membership. New Project không làm mất config. Không báo Saved trước Promise write thành công.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-06",
+      "refs": "FR-051–054, FR-077, FR-079",
+      "title": "Load/Update identity",
+      "action": "Load record, sửa config/text/name/destination hợp lệ, Update rồi reload.",
+      "expected": "Update giữ id/createdAt, tăng updatedAt sau write thành công; full record round-trip. Không tạo clone hoặc reset profile khi load.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-07",
+      "refs": "FR-052–054, FR-084",
+      "title": "Remix/duplicate immutability",
+      "action": "Snapshot source record; Remix có destination và cả error/warning branches; duplicate nếu flow được cung cấp.",
+      "expected": "Success tạo id mới + timestamps mới; source byte snapshot không đổi. Errors hoặc cancelled warning không tạo new record. Duplicate không lén Update source.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-08",
+      "refs": "FR-046–049",
+      "title": "Clipboard success/failure",
+      "action": "Copy effective text bằng mouse/keyboard; stub clipboard rejection/permission denied.",
+      "expected": "Success đúng plain raw text; failure thông báo thật và text vẫn selectable để copy thủ công. Không báo Copied khi clipboard thất bại.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-09",
+      "refs": "FR-021–025, FR-034–039, FR-099–102",
+      "title": "Disclosure + errors",
+      "action": "Mở/đóng multi-groups, navigate-return trong active draft, submit invalid field trong closed group.",
+      "expected": "Default Product identity và Lighting and composition mở; 3 nhóm còn lại đóng; multi-open và session choices được giữ. Error mở affected group, focus first affected field; hidden controls không vào tab order.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-10",
+      "refs": "FR-113–115",
+      "title": "Learn exact field",
+      "action": "Mỗi field trigger bằng keyboard/mouse; xem compact panel và full article; quay Build.",
+      "expected": "Name/definition/effect đúng field; nonmodal không che field/focus trap. Same-tab full article tới exact slug + return context, draft không đổi; native Ctrl-click vẫn theo browser.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-11",
+      "refs": "FR-115",
+      "title": "Learn dismiss/focus",
+      "action": "Mở Learn rồi Escape, outside click hoặc close control ở ba instance.",
+      "expected": "Panel đóng; focus trở về đúng trigger theo contract; không mất input đang nhập hoặc draft.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-12",
+      "refs": "FR-116–117",
+      "title": "Reset to Preset allowed diff",
+      "action": "Customize controlled defaults và product identity/name/destination/output; invoke Reset và confirm.",
+      "expected": "Dialog nêu Preset/count/scope; chỉ controlled defaults reset. Identity, name, destination, selected Preset, generated/edited text không đổi; không generate/save side effect.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-13",
+      "refs": "FR-116–117",
+      "title": "Reset cancel/version",
+      "action": "Thử unchanged Preset, cancel/Escape, missing historical catalogue snapshot và Start Blank.",
+      "expected": "Reset chỉ available khi có controlled diff; cancel giữ nguyên state. Missing version vô hiệu hóa reset có giải thích, không áp defaults version mới hoặc reset Blank như Preset.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "APP-14",
+      "refs": "FR-107–109, FR-118",
+      "title": "Selected visual context",
+      "action": "Đổi Preset trước Generate, navigate và chọn Project; chuyển missing asset.",
+      "expected": "Preview/name/intent cập nhật ngay đúng active ID; icon + label cùng selected color, có rail/tint/weight; Project folder fill ngoại lệ được giữ. Fallback không cản input/action.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "STO-01",
+      "refs": "FR-050–051, FR-060, FR-063, FR-079",
+      "title": "Round-trip envelope",
+      "action": "Write/read records chứa config, generated/edited prompt, stable IDs, versions, timestamps và projectId null/non-null.",
+      "expected": "Schema version và mọi valid field được bảo toàn qua reload; catalogue builtin không serialize vào user records; async ProjectStore/SavedConfigurationStore contract nhất quán.",
+      "level": "Contract + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "STO-02",
+      "refs": "FR-064, FR-079",
+      "title": "Corrupt JSON/envelope",
+      "action": "Seed malformed JSON, wrong root shape, bad schema/ID/type/date và duplicate ID; khởi động app.",
+      "expected": "Guard reject có message; app shell/catalogue vẫn dùng được; không silent clear/reset corrupted bytes. Hành vi xử lý từng bad record vs toàn envelope theo supported storage contract, có evidence.",
+      "level": "Contract + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "STO-03",
+      "refs": "FR-063–064, FR-067",
+      "title": "Unsupported version",
+      "action": "Seed newer envelope và compiler/profile versions unknown; thử load/regenerate.",
+      "expected": "Không downgrade hoặc rewrite tự động. Có unsupported path trung thực; bản stored text được bảo toàn, chỉ supported migration được phép thay đổi dữ liệu.",
+      "level": "Contract + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "STO-04",
+      "refs": "FR-063, FR-067",
+      "title": "Supported migration",
+      "action": "Seed representative prior supported schema fixture; migrate rồi read/update; inject migration exception.",
+      "expected": "Success đúng reviewed mapping và versions, IDs/text/provenance còn nguyên. Failure giữ nguyên pre-migration envelope; không xóa để app chạy. Những schema chưa có implementation: Blocked, không giả Pass.",
+      "level": "Contract + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "STO-05",
+      "refs": "FR-078–079",
+      "title": "Quota/storage unavailable",
+      "action": "Inject QuotaExceededError và SecurityError vào create/Update/Remix/migration write; dùng populated old envelope.",
+      "expected": "Old stored bytes + editor text/config vẫn còn; không Saved hoặc partial destructive result; Copy còn dùng được. Revalidate/fix/retry explicit, không infinite automatic retry.",
+      "level": "Contract + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "STO-06",
+      "refs": "FR-068, FR-078–079",
+      "title": "Validate next envelope",
+      "action": "Corrupt unrelated record hoặc membership trong next envelope trước write; thử mutate metadata.",
+      "expected": "Full write payload bị kiểm tra và invalid write bị chặn; stale UI success không che store failure. Error nêu hành động thất bại, không xóa healthy data để chữa lỗi.",
+      "level": "Contract + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "STO-07",
+      "refs": "FR-062, FR-066",
+      "title": "Storage seam isolation",
+      "action": "Chạy cùng contract tests với in-memory test double và LocalStorageStore; inspect imports.",
+      "expected": "UI/compiler/validator không import vendor storage internals; Promise rejection được handle. Test double không thay requirement thành database production đã triển khai.",
+      "level": "Contract + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "STO-08",
+      "refs": "FR-060, FR-078",
+      "title": "Origin/reload/offline",
+      "action": "Reload cùng origin; mở preview/production origins khác; tắt network sau khi app/assets đã load.",
+      "expected": "Cùng origin đọc dữ liệu persisted; khác origin không được gọi là mất dữ liệu hay automatic sync. Core đã load chạy offline; không hứa cold offline/PWA/service worker mới.",
+      "level": "Contract + integration",
+      "status": "Not Run"
+    },
+    {
+      "id": "PRJ-01",
+      "refs": "FR-080, FR-081–083",
+      "title": "Permanent Workspace/null",
+      "action": "Khởi tạo empty browser context, create/rename Project, save No Project; inspect records/UI.",
+      "expected": "Có một Workspace không delete; Project tùy chọn; No Project là projectId:null, không fake entity. Project CRUD không tạo account/workspace selector mới.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "PRJ-02",
+      "refs": "FR-081, FR-088",
+      "title": "Project CRUD/filter",
+      "action": "Create/rename/delete empty Project, chọn filter và reload; thử blank name theo guard.",
+      "expected": "CRUD functional, names hợp lệ; filter/membership đúng record. Không đưa Preset/Workflow CRUD vào flow.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "PRJ-03",
+      "refs": "FR-085–086",
+      "title": "Delete children destructive",
+      "action": "Project có 3 prompts; chọn delete prompts, kiểm tra count/target rồi confirm; instance khác cancel.",
+      "expected": "Chỉ explicit destructive choice + confirmation xóa Project và đúng 3 children. Cancel giữ tất cả; default không phải destructive delete.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "PRJ-04",
+      "refs": "FR-082, FR-085",
+      "title": "Move children → No Project",
+      "action": "Project có 3 prompts; giữ safe default move No Project rồi confirm.",
+      "expected": "Project bị xóa; 3 prompts giữ nội dung/IDs và projectId:null; không orphan foreign key hoặc mất text.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "PRJ-05",
+      "refs": "FR-085–087",
+      "title": "Move children → Project",
+      "action": "Có source A, targets B/C; chọn B rồi confirm; thử chỉ còn A và target biến mất trước commit.",
+      "expected": "A bị exclude; khi không có target option disabled. Success chỉ chuyển A children sang B; stale/invalid target không commit partial deletion và báo lỗi.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "PRJ-06",
+      "refs": "FR-055, FR-085–087, FR-078",
+      "title": "Delete failure/cancel",
+      "action": "Inject write rejection ở từng strategy; thử Escape/cancel Prompt delete và Project delete.",
+      "expected": "Không fake success; store state cũ nguyên vẹn. UI phản ánh failure; retry không double-delete. Prompt delete đúng item và cancellation giữ item.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "LIB-01",
+      "refs": "FR-056–059, FR-088",
+      "title": "Combined search/date/project",
+      "action": "Seed names khác case và ngày khác nhau ở null/A/B; kết hợp name + createdAt range + Project.",
+      "expected": "Name case-insensitive; filters kết hợp AND trên createdAt và membership đúng; empty results rõ ràng. Boundary/timezone được ghi cụ thể theo query contract đã duyệt, không tự phát minh date semantics.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "LIB-02",
+      "refs": "FR-051–059, FR-088",
+      "title": "List/empty/no results",
+      "action": "Empty store rồi populated filtered store; mở đúng record, đổi filter, delete và reload.",
+      "expected": "Có empty/no-results states khác nhau, table/action đúng item, search không mutate records; library refresh sau successful write.",
+      "level": "Integration + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "UX-01",
+      "refs": "FR-089–094",
+      "title": "Home → discovery → Build",
+      "action": "Fresh load; đi từ Workflow/Preset cards đến Build bằng mouse/keyboard.",
+      "expected": "Home default; purpose/path rõ; available cards có image/name/Workflow/intent/action. Unavailable status trung thực; Apply không hover-only; non-guarantee wording thấy được.",
+      "level": "Manual + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "UX-02",
+      "refs": "FR-095–098, FR-113–115",
+      "title": "English routes/knowledge",
+      "action": "Duyệt Home, Build, Built-in, My Prompts, Encyclopedia, dialogs/toasts/validation và exact-field route reload.",
+      "expected": "English UI/knowledge nhất quán; không language switch giả hoặc research copy chưa dịch. Direct route được kiểm tra theo route contract, draft return được giữ trong active session.",
+      "level": "Manual + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "UX-03",
+      "refs": "FR-099–102",
+      "title": "Disclosure status summary",
+      "action": "Collapse default/customized/error/warning groups; resolve issues và điều hướng trở lại.",
+      "expected": "Count/state đúng fields thực tế; error/warning status cập nhật; không chỉ dùng color hoặc hidden content để hiểu trạng thái.",
+      "level": "Manual + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "UX-04",
+      "refs": "FR-103, FR-110–111, FR-118",
+      "title": "Visual tokens/icons",
+      "action": "So Home/Built-in/Build/My Prompts với v1.4 và UI rules; inspect local asset failures/monochrome.",
+      "expected": "Minimalist Product Utility, local Lucide outline nominal 18px/2px, labels visible; 7px controls/10px panels. Selected icon+label + non-color cue; không substitute emoji/system glyphs.",
+      "level": "Manual + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "UX-05",
+      "refs": "FR-020–025, FR-102–103, FR-115–116",
+      "title": "Keyboard/focus sequence",
+      "action": "Tab/Shift+Tab qua toàn flow; dùng Enter/Space, Escape; error auto-reveal, warning/reset/delete dialogs.",
+      "expected": "Order theo task, focus visible; labels/accessible names đúng; dialog focus vào/ra hợp lý, Learn nonmodal không trap. Closed groups không tabbable; error field và trigger focus chính xác.",
+      "level": "Manual + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "UX-06",
+      "refs": "FR-099–102",
+      "title": "Responsive/reflow/zoom",
+      "action": "Chạy desktop và samples 320/375/767/768/1280px; zoom 200%; dùng long values/errors và open Learn.",
+      "expected": "Dưới 768px một cột đúng task order; không mất CTA/text, overlap hoặc page horizontal overflow. Samples là cách kiểm tra boundary, không thêm breakpoint product ngoài baseline.",
+      "level": "Manual + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "UX-07",
+      "refs": "FR-103, FR-118",
+      "title": "Contrast và non-color cues",
+      "action": "Đo text, focus, selected, error, disabled, panel boundaries trên actual UI.",
+      "expected": "Ghi ratios và exceptions: normal text target 4.5:1, large text 3:1; meaningful component/state boundaries target 3:1 theo baseline/W3C. Không tuyên bố full WCAG conformance chỉ vì suite này pass.",
+      "level": "Manual + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "UX-08",
+      "refs": "FR-050–059, FR-078–079",
+      "title": "Honest feedback/states",
+      "action": "Exercise loading/write failure/empty/no results/success/warnings/errors/missing images và Copy failure.",
+      "expected": "Message nêu đúng outcome, giữ draft khi failure, success chỉ sau completed action; không spinner/toast giả hoặc dead controls.",
+      "level": "Manual + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "UX-09",
+      "refs": "FR-093, FR-109–110, FR-119",
+      "title": "Offline/local provenance",
+      "action": "Block remote assets/network sau load; inspect image alt, action labels, disclaimer và provenance.",
+      "expected": "Local assets/knowledge/core còn dùng hoặc fallback rõ; không external API/image-generation requests. Provenance không biến 6 sample images thành proof cho 10 compiler outputs.",
+      "level": "Manual + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "UX-10",
+      "refs": "FR-001–005, FR-040–059, FR-080–088",
+      "title": "Chrome/Edge full flow",
+      "action": "Trên stable Chrome và stable Edge, ghi version/OS; chạy Generate/edit/Copy/reload/Update/Remix/search/delete.",
+      "expected": "Cả hai browsers hoàn tất cùng expected behavior; core actions cập nhật trong page, không yêu cầu full reload. Không unhandled exception hoặc divergence chưa giải thích; Firefox/Safari optional không thay mandatory matrix.",
+      "level": "Manual + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "UX-11",
+      "refs": "FR-105–106, FR-112",
+      "title": "Scope honesty",
+      "action": "Duyệt mọi visible navigation/action và Built-in; inspect production bundle endpoints.",
+      "expected": "Không Admin, incomplete catalogue CRUD, auth, image upload/generation, API integration hoặc generic form builder. Deferred features không hiển thị như đã hoạt động.",
+      "level": "Manual + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "UX-12",
+      "refs": "FR-040–049, FR-079",
+      "title": "Untrusted input display",
+      "action": "Nhập HTML/script-like text, Markdown metacharacters và long names vào fields/name/knowledge-search; load saved counterpart.",
+      "expected": "User content hiển thị an toàn dưới dạng text; không script execution hoặc markup injection. Plain-text output không cần rich Markdown renderer mới; error không lộ unrelated stored content.",
+      "level": "Manual + end-to-end",
+      "status": "Not Run"
+    },
+    {
+      "id": "REL-01",
+      "refs": "FR-062, FR-066, FR-104",
+      "title": "Reproducible production build",
+      "action": "Từ clean checkout dùng pinned lockfile; chạy catalogue checks, type check, unit/contract tests và production build.",
+      "expected": "Không missing references/type/build errors; lưu commit/build ID + dependency versions + test evidence. Mockup HTML không được ghi nhận là production build.",
+      "level": "Build / release / deferred",
+      "status": "Not Run"
+    },
+    {
+      "id": "REL-02",
+      "refs": "FR-001–005, FR-040–059, FR-078, FR-089",
+      "title": "Release smoke",
+      "action": "Serve built artifact trên intended origin; Home → valid Preset → Generate → edit/Copy → reload → Update → Remix → filter.",
+      "expected": "Assets/routes/output/persistence đúng, no console failure; release build được chạy chứ không chỉ dev server. Smoke trên Chrome và Edge và mobile-width sample.",
+      "level": "Build / release / deferred",
+      "status": "Not Run"
+    },
+    {
+      "id": "REL-03",
+      "refs": "FR-063, FR-067, FR-078",
+      "title": "Rollback/schema drill",
+      "action": "Trên isolated test origin, chạy previous build + old data, candidate + migration, rồi previous build với candidate data.",
+      "expected": "Ghi compatibility thật; rollback code không được giả định rollback storage. Nếu old build không đọc schema mới, dừng promotion hoặc có reviewed recovery path bảo toàn dữ liệu trước release.",
+      "level": "Build / release / deferred",
+      "status": "Not Run"
+    },
+    {
+      "id": "REL-04",
+      "refs": "FR-061, FR-065–067",
+      "title": "Database transition gate",
+      "action": "Khi DR-005 được giải quyết, chọn vendor/access/ownership/migration; chạy cùng store contracts với DatabaseStore và representative fixtures.",
+      "expected": "Deferred ở MVP. Trước final submission phải có plan + implementation + evidence đúng DOC-02; không coi LocalStorageStore hoặc this plan là hoàn tất database requirement.",
+      "level": "Build / release / deferred",
+      "status": "Not Run"
+    },
+    {
+      "id": "REL-05",
+      "refs": "FR-071–075, FR-098, FR-106",
+      "title": "Future scope gate",
+      "action": "Trước thêm Workflow/localization/admin source, đối chiếu research + updated requirements/catalogue và test scope.",
+      "expected": "Deferred release; có approved contracts và regression trước triển khai. Không gán Pass/Fail MVP cho functionality chưa nằm release Product.",
+      "level": "Build / release / deferred",
+      "status": "Not Run"
+    },
+    {
+      "id": "REL-06",
+      "refs": "FR-069",
+      "title": "Relational projection review",
+      "action": "Đối chiếu DOC-03 reference relational projection với logical Saved Configuration record và Project membership.",
+      "expected": "Projection chứa fields/IDs/relations tương ứng logical localStorage record và không giả định vendor. Đây là document/design review; không là bằng chứng database runtime đã được triển khai.",
+      "level": "Build / release / deferred",
+      "status": "Not Run"
+    }
+  ],
+  "coverage": {
+    "FR-001": [
+      "CAT-01",
+      "APP-01",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-002": [
+      "CAT-01",
+      "CMP-09",
+      "APP-01",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-003": [
+      "CAT-01",
+      "CMP-09",
+      "APP-01",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-004": [
+      "CAT-01",
+      "CMP-09",
+      "APP-01",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-005": [
+      "CAT-01",
+      "CMP-09",
+      "APP-01",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-010": [
+      "CAT-02",
+      "APP-01",
+      "APP-02"
+    ],
+    "FR-011": [
+      "CAT-02",
+      "CMP-09",
+      "APP-01",
+      "APP-02"
+    ],
+    "FR-012": [
+      "CAT-02",
+      "APP-01",
+      "APP-02"
+    ],
+    "FR-013": [
+      "CAT-02",
+      "CAT-05",
+      "APP-01",
+      "APP-02"
+    ],
+    "FR-014": [
+      "CAT-02",
+      "APP-01",
+      "APP-02"
+    ],
+    "FR-015": [
+      "CAT-02",
+      "APP-01",
+      "APP-02"
+    ],
+    "FR-016": [
+      "CAT-02",
+      "APP-01",
+      "APP-02"
+    ],
+    "FR-017": [
+      "CAT-02",
+      "APP-01",
+      "APP-02"
+    ],
+    "FR-018": [
+      "CAT-02",
+      "APP-01",
+      "APP-02"
+    ],
+    "FR-019": [
+      "CAT-02",
+      "VAL-14",
+      "CMP-04",
+      "APP-01",
+      "APP-02"
+    ],
+    "FR-020": [
+      "CAT-03",
+      "APP-02",
+      "UX-05"
+    ],
+    "FR-021": [
+      "CAT-03",
+      "APP-02",
+      "APP-09",
+      "UX-05"
+    ],
+    "FR-022": [
+      "CAT-03",
+      "APP-02",
+      "APP-09",
+      "UX-05"
+    ],
+    "FR-023": [
+      "CAT-03",
+      "APP-02",
+      "APP-09",
+      "UX-05"
+    ],
+    "FR-024": [
+      "CAT-03",
+      "APP-02",
+      "APP-09",
+      "UX-05"
+    ],
+    "FR-025": [
+      "CAT-03",
+      "APP-02",
+      "APP-09",
+      "UX-05"
+    ],
+    "FR-030": [
+      "CAT-04",
+      "CAT-08",
+      "VAL-01",
+      "VAL-03",
+      "VAL-04",
+      "VAL-05",
+      "VAL-06",
+      "VAL-15"
+    ],
+    "FR-031": [
+      "CAT-04",
+      "CAT-08",
+      "VAL-01",
+      "VAL-03",
+      "VAL-04",
+      "VAL-05",
+      "VAL-06",
+      "VAL-15"
+    ],
+    "FR-032": [
+      "CAT-04",
+      "CAT-08",
+      "VAL-02",
+      "VAL-03",
+      "VAL-04",
+      "VAL-05",
+      "VAL-06",
+      "VAL-15"
+    ],
+    "FR-033": [
+      "CAT-04",
+      "CAT-08",
+      "VAL-03",
+      "VAL-04",
+      "VAL-05",
+      "VAL-06",
+      "VAL-07",
+      "VAL-08",
+      "VAL-09",
+      "VAL-10",
+      "VAL-11",
+      "VAL-12",
+      "VAL-13",
+      "VAL-14",
+      "VAL-15"
+    ],
+    "FR-034": [
+      "CAT-04",
+      "CAT-08",
+      "VAL-03",
+      "VAL-04",
+      "VAL-05",
+      "VAL-06",
+      "VAL-07",
+      "VAL-08",
+      "VAL-09",
+      "VAL-10",
+      "VAL-11",
+      "VAL-12",
+      "VAL-13",
+      "VAL-14",
+      "VAL-15",
+      "VAL-16",
+      "APP-09"
+    ],
+    "FR-035": [
+      "CAT-04",
+      "CAT-08",
+      "VAL-03",
+      "VAL-04",
+      "VAL-05",
+      "VAL-06",
+      "VAL-07",
+      "VAL-08",
+      "VAL-09",
+      "VAL-10",
+      "VAL-11",
+      "VAL-12",
+      "VAL-13",
+      "VAL-14",
+      "VAL-15",
+      "VAL-16",
+      "APP-09"
+    ],
+    "FR-036": [
+      "CAT-04",
+      "CAT-08",
+      "VAL-03",
+      "VAL-04",
+      "VAL-05",
+      "VAL-06",
+      "VAL-07",
+      "VAL-08",
+      "VAL-09",
+      "VAL-10",
+      "VAL-11",
+      "VAL-12",
+      "VAL-13",
+      "VAL-14",
+      "VAL-15",
+      "VAL-16",
+      "VAL-17",
+      "APP-09"
+    ],
+    "FR-037": [
+      "CAT-04",
+      "CAT-08",
+      "VAL-03",
+      "VAL-04",
+      "VAL-05",
+      "VAL-06",
+      "VAL-07",
+      "VAL-08",
+      "VAL-09",
+      "VAL-10",
+      "VAL-11",
+      "VAL-12",
+      "VAL-13",
+      "VAL-14",
+      "VAL-15",
+      "VAL-16",
+      "VAL-17",
+      "APP-09"
+    ],
+    "FR-038": [
+      "CAT-04",
+      "CAT-08",
+      "VAL-01",
+      "VAL-03",
+      "VAL-04",
+      "VAL-05",
+      "VAL-06",
+      "VAL-07",
+      "VAL-08",
+      "VAL-09",
+      "VAL-10",
+      "VAL-11",
+      "VAL-12",
+      "VAL-13",
+      "VAL-14",
+      "VAL-15",
+      "VAL-16",
+      "VAL-17",
+      "APP-09"
+    ],
+    "FR-039": [
+      "CAT-04",
+      "CAT-08",
+      "VAL-03",
+      "VAL-04",
+      "VAL-05",
+      "VAL-06",
+      "VAL-07",
+      "VAL-08",
+      "VAL-09",
+      "VAL-10",
+      "VAL-11",
+      "VAL-12",
+      "VAL-13",
+      "VAL-14",
+      "VAL-15",
+      "VAL-16",
+      "VAL-17",
+      "APP-09"
+    ],
+    "FR-040": [
+      "CAT-08",
+      "CMP-01",
+      "CMP-04",
+      "CMP-05",
+      "CMP-06",
+      "CMP-07",
+      "CMP-08",
+      "CMP-09",
+      "CMP-10",
+      "UX-10",
+      "UX-12",
+      "REL-02"
+    ],
+    "FR-041": [
+      "CAT-08",
+      "CMP-01",
+      "CMP-02",
+      "CMP-04",
+      "CMP-05",
+      "CMP-06",
+      "CMP-07",
+      "CMP-08",
+      "CMP-09",
+      "CMP-10",
+      "UX-10",
+      "UX-12",
+      "REL-02"
+    ],
+    "FR-042": [
+      "CAT-08",
+      "CMP-01",
+      "CMP-04",
+      "CMP-05",
+      "CMP-06",
+      "CMP-07",
+      "CMP-08",
+      "CMP-09",
+      "CMP-10",
+      "UX-10",
+      "UX-12",
+      "REL-02"
+    ],
+    "FR-043": [
+      "CAT-08",
+      "CMP-03",
+      "CMP-04",
+      "CMP-05",
+      "CMP-06",
+      "CMP-07",
+      "CMP-08",
+      "CMP-09",
+      "CMP-10",
+      "UX-10",
+      "UX-12",
+      "REL-02"
+    ],
+    "FR-044": [
+      "CAT-08",
+      "CMP-03",
+      "CMP-04",
+      "CMP-05",
+      "CMP-06",
+      "CMP-07",
+      "CMP-08",
+      "CMP-09",
+      "CMP-10",
+      "UX-10",
+      "UX-12",
+      "REL-02"
+    ],
+    "FR-045": [
+      "CAT-08",
+      "CMP-04",
+      "CMP-05",
+      "CMP-06",
+      "CMP-07",
+      "CMP-08",
+      "CMP-09",
+      "CMP-10",
+      "APP-03",
+      "UX-10",
+      "UX-12",
+      "REL-02"
+    ],
+    "FR-046": [
+      "CAT-08",
+      "CMP-04",
+      "CMP-05",
+      "CMP-06",
+      "CMP-07",
+      "CMP-08",
+      "CMP-09",
+      "CMP-10",
+      "APP-03",
+      "APP-08",
+      "UX-10",
+      "UX-12",
+      "REL-02"
+    ],
+    "FR-047": [
+      "CAT-08",
+      "CMP-04",
+      "CMP-05",
+      "CMP-06",
+      "CMP-07",
+      "CMP-08",
+      "CMP-09",
+      "CMP-10",
+      "APP-03",
+      "APP-08",
+      "UX-10",
+      "UX-12",
+      "REL-02"
+    ],
+    "FR-048": [
+      "CAT-08",
+      "CMP-04",
+      "CMP-05",
+      "CMP-06",
+      "CMP-07",
+      "CMP-08",
+      "CMP-09",
+      "CMP-10",
+      "APP-03",
+      "APP-08",
+      "UX-10",
+      "UX-12",
+      "REL-02"
+    ],
+    "FR-049": [
+      "CAT-08",
+      "CMP-04",
+      "CMP-05",
+      "CMP-06",
+      "CMP-07",
+      "CMP-08",
+      "CMP-09",
+      "CMP-10",
+      "APP-03",
+      "APP-08",
+      "UX-10",
+      "UX-12",
+      "REL-02"
+    ],
+    "FR-050": [
+      "APP-05",
+      "STO-01",
+      "UX-08",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-051": [
+      "APP-05",
+      "APP-06",
+      "STO-01",
+      "LIB-02",
+      "UX-08",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-052": [
+      "APP-05",
+      "APP-06",
+      "APP-07",
+      "LIB-02",
+      "UX-08",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-053": [
+      "APP-05",
+      "APP-06",
+      "APP-07",
+      "LIB-02",
+      "UX-08",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-054": [
+      "APP-05",
+      "APP-06",
+      "APP-07",
+      "LIB-02",
+      "UX-08",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-055": [
+      "PRJ-06",
+      "LIB-02",
+      "UX-08",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-056": [
+      "LIB-01",
+      "LIB-02",
+      "UX-08",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-057": [
+      "LIB-01",
+      "LIB-02",
+      "UX-08",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-058": [
+      "LIB-01",
+      "LIB-02",
+      "UX-08",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-059": [
+      "LIB-01",
+      "LIB-02",
+      "UX-08",
+      "UX-10",
+      "REL-02"
+    ],
+    "FR-060": [
+      "STO-01",
+      "STO-08"
+    ],
+    "FR-061": [
+      "REL-04"
+    ],
+    "FR-062": [
+      "STO-07",
+      "REL-01"
+    ],
+    "FR-063": [
+      "STO-01",
+      "STO-03",
+      "STO-04",
+      "REL-03"
+    ],
+    "FR-064": [
+      "STO-02",
+      "STO-03"
+    ],
+    "FR-065": [
+      "REL-04"
+    ],
+    "FR-066": [
+      "CMP-02",
+      "STO-07",
+      "REL-01",
+      "REL-04"
+    ],
+    "FR-067": [
+      "STO-03",
+      "STO-04",
+      "REL-03",
+      "REL-04"
+    ],
+    "FR-068": [
+      "VAL-01",
+      "VAL-02",
+      "VAL-17",
+      "APP-05",
+      "STO-06"
+    ],
+    "FR-069": [
+      "REL-06"
+    ],
+    "FR-070": [
+      "CAT-01"
+    ],
+    "FR-071": [
+      "CAT-01",
+      "REL-05"
+    ],
+    "FR-072": [
+      "CAT-01",
+      "REL-05"
+    ],
+    "FR-073": [
+      "CAT-01",
+      "REL-05"
+    ],
+    "FR-074": [
+      "CAT-01",
+      "REL-05"
+    ],
+    "FR-075": [
+      "CAT-01",
+      "REL-05"
+    ],
+    "FR-076": [
+      "CMP-01",
+      "CMP-10"
+    ],
+    "FR-077": [
+      "APP-03",
+      "APP-04",
+      "APP-06"
+    ],
+    "FR-078": [
+      "STO-05",
+      "STO-06",
+      "STO-08",
+      "PRJ-06",
+      "UX-08",
+      "REL-02",
+      "REL-03"
+    ],
+    "FR-079": [
+      "VAL-02",
+      "VAL-17",
+      "APP-06",
+      "STO-01",
+      "STO-02",
+      "STO-05",
+      "STO-06",
+      "UX-08",
+      "UX-12"
+    ],
+    "FR-080": [
+      "PRJ-01",
+      "UX-10"
+    ],
+    "FR-081": [
+      "PRJ-01",
+      "PRJ-02",
+      "UX-10"
+    ],
+    "FR-082": [
+      "PRJ-01",
+      "PRJ-04",
+      "UX-10"
+    ],
+    "FR-083": [
+      "APP-05",
+      "PRJ-01",
+      "UX-10"
+    ],
+    "FR-084": [
+      "VAL-15",
+      "VAL-16",
+      "APP-05",
+      "APP-07",
+      "UX-10"
+    ],
+    "FR-085": [
+      "PRJ-03",
+      "PRJ-04",
+      "PRJ-05",
+      "PRJ-06",
+      "UX-10"
+    ],
+    "FR-086": [
+      "PRJ-03",
+      "PRJ-05",
+      "PRJ-06",
+      "UX-10"
+    ],
+    "FR-087": [
+      "PRJ-05",
+      "PRJ-06",
+      "UX-10"
+    ],
+    "FR-088": [
+      "PRJ-02",
+      "LIB-01",
+      "LIB-02",
+      "UX-10"
+    ],
+    "FR-089": [
+      "UX-01",
+      "REL-02"
+    ],
+    "FR-090": [
+      "UX-01"
+    ],
+    "FR-091": [
+      "CAT-01",
+      "UX-01"
+    ],
+    "FR-092": [
+      "UX-01"
+    ],
+    "FR-093": [
+      "CAT-06",
+      "UX-01",
+      "UX-09"
+    ],
+    "FR-094": [
+      "CAT-06",
+      "UX-01"
+    ],
+    "FR-095": [
+      "CAT-05",
+      "UX-02"
+    ],
+    "FR-096": [
+      "CAT-05",
+      "UX-02"
+    ],
+    "FR-097": [
+      "CAT-05",
+      "UX-02"
+    ],
+    "FR-098": [
+      "CAT-05",
+      "UX-02",
+      "REL-05"
+    ],
+    "FR-099": [
+      "APP-09",
+      "UX-03",
+      "UX-06"
+    ],
+    "FR-100": [
+      "APP-09",
+      "UX-03",
+      "UX-06"
+    ],
+    "FR-101": [
+      "APP-09",
+      "UX-03",
+      "UX-06"
+    ],
+    "FR-102": [
+      "VAL-15",
+      "APP-09",
+      "UX-03",
+      "UX-05",
+      "UX-06"
+    ],
+    "FR-103": [
+      "UX-04",
+      "UX-05",
+      "UX-07"
+    ],
+    "FR-104": [
+      "CAT-02",
+      "CAT-03",
+      "CAT-04",
+      "CAT-05",
+      "CAT-07",
+      "REL-01"
+    ],
+    "FR-105": [
+      "CAT-07",
+      "UX-11"
+    ],
+    "FR-106": [
+      "CAT-07",
+      "UX-11",
+      "REL-05"
+    ],
+    "FR-107": [
+      "CAT-06",
+      "APP-14"
+    ],
+    "FR-108": [
+      "CAT-06",
+      "APP-14"
+    ],
+    "FR-109": [
+      "CAT-06",
+      "APP-14",
+      "UX-09"
+    ],
+    "FR-110": [
+      "UX-04",
+      "UX-09"
+    ],
+    "FR-111": [
+      "UX-04"
+    ],
+    "FR-112": [
+      "CAT-07",
+      "UX-11"
+    ],
+    "FR-113": [
+      "APP-10",
+      "UX-02"
+    ],
+    "FR-114": [
+      "APP-10",
+      "UX-02"
+    ],
+    "FR-115": [
+      "APP-10",
+      "APP-11",
+      "UX-02",
+      "UX-05"
+    ],
+    "FR-116": [
+      "APP-12",
+      "APP-13",
+      "UX-05"
+    ],
+    "FR-117": [
+      "APP-12",
+      "APP-13"
+    ],
+    "FR-118": [
+      "APP-14",
+      "UX-04",
+      "UX-07"
+    ],
+    "FR-119": [
+      "CAT-06",
+      "UX-09"
+    ]
+  },
+  "nfrCoverage": {
+    "NFR-001": [
+      "REL-01",
+      "Inspect production dependencies/source: vanilla HTML/CSS/TS; không framework tương đương."
+    ],
+    "NFR-002": [
+      "REL-01, UX-04",
+      "Review runtime dependencies; browser/native TypeScript preference, local asset bundle có scope rõ."
+    ],
+    "NFR-003": [
+      "CMP-02, UX-09, UX-11",
+      "Configure/validate/compile không cần AI hoặc image-provider network call."
+    ],
+    "NFR-004": [
+      "STO-07, REL-01",
+      "Inspect models/data/validation/compiler/storage/UI responsibility boundaries."
+    ],
+    "NFR-005": [
+      "UX-10, APP-09",
+      "Core actions cập nhật trong page; manual reload chỉ là persistence test."
+    ],
+    "NFR-006": [
+      "UX-05, APP-10–13",
+      "Semantic controls, mouse/keyboard, logical tab order/focus; không full WCAG claim."
+    ],
+    "NFR-007": [
+      "UX-10, REL-02",
+      "Stable Chrome/Edge execution evidence; ghi versions thực tế."
+    ],
+    "NFR-008": [
+      "PRJ-01, UX-11",
+      "Core không account/profile-data prerequisite."
+    ],
+    "NFR-009": [
+      "CMP-02, VAL-01–17",
+      "Pure deterministic units; validator issues repeatable cho cùng input, không cần DOM."
+    ],
+    "NFR-010": [
+      "REL-02, REL-03",
+      "Optional hosting; Vercel preferred nếu chọn deploy; no implied publish approval."
+    ],
+    "NFR-011": [
+      "STO-07, REL-01",
+      "Review code structure theo architecture cơ bản đã chốt, không enterprise patterns mới."
+    ],
+    "NFR-012": [
+      "UX-09, UX-11, REL-05",
+      "External API deferred sau MVP hoàn tất + kiểm thử; không dependency của release này."
+    ]
+  },
+  "sources": [
+    {
+      "label": "DOC-01 v2.3",
+      "path": "00_Project_Management/Project_Overview/VisualPrompt_Studio_DOC-01_Product_and_Project_Brief_v2.3.docx",
+      "sha256": "1f0e7a4f47be4f4fc84fde3aea656930affeaf6d5a4ee17b581390d7b8fedadc"
+    },
+    {
+      "label": "DOC-02 v2.2",
+      "path": "01_Requirements/Product_Requirements/VisualPrompt_Studio_DOC-02_Product_and_Functional_Requirements_Specification_v2.2.docx",
+      "sha256": "916d03de0e83396246fa229518897a54b2b2e4c782c3f5cd95ad2739b1fb275a"
+    },
+    {
+      "label": "DOC-03 v2.1",
+      "path": "02_Architecture/Data_Architecture/VisualPrompt_Studio_DOC-03_Domain_State_and_Data_Design_v2.1.docx",
+      "sha256": "4171e850b27c2e2615c76ecaccebe387ea70aeb9fd09efbea7ce76b842d57d6e"
+    },
+    {
+      "label": "DOC-04 v1.9",
+      "path": "02_Architecture/Frontend_Architecture/VisualPrompt_Studio_DOC-04_Frontend_Architecture_and_ADRs_v1.9.docx",
+      "sha256": "d05196bd7720ff48af58b8b481cebfdee6830d340e39dac9e3edb78134ef23b5"
+    },
+    {
+      "label": "DOC-05 v1.5",
+      "path": "04_Frontend_Design/UX_and_Interaction/VisualPrompt_Studio_DOC-05_UX_and_Interaction_Specification_v1.5.docx",
+      "sha256": "8a520945114347ffcca054a624646595ee9471e2f5342f3453c2e4537c9c5295"
+    }
+  ]
+}

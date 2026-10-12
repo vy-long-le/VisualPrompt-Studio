@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VisualPrompt Studio - Stage 6 v1.2</title>
+  <style>
+    :root {
+      --paper: #f3f1eb;
+      --surface: #fbfaf6;
+      --white: #ffffff;
+      --ink: #191919;
+      --muted: #6a6964;
+      --line: #d8d5cc;
+      --blue: #145a87;
+      --blue-dark: #0b3d60;
+      --blue-pale: #e4eef3;
+      --signal: #ef5b3d;
+      --green: #27795c;
+      --shadow: 0 18px 45px rgba(25, 25, 25, 0.08);
+      --sans: "Segoe UI", Arial, sans-serif;
+      --display: Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; min-height: 100%; margin: 0; }
+    body { background: var(--paper); color: var(--ink); font-family: var(--sans); }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: default; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      height: 76px;
+      padding: 0 34px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(251, 250, 246, 0.98);
+      display: grid;
+      grid-template-columns: 300px 1fr 180px;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .wordmark { font-weight: 760; font-size: 22px; letter-spacing: -0.6px; }
+    .wordmark span { color: var(--blue); }
+    .global-nav { display: flex; justify-content: center; gap: 34px; font-size: 14px; }
+    .global-nav a { color: #55534e; padding: 25px 0 21px; border-bottom: 3px solid transparent; display: flex; align-items: center; gap: 7px; }
+    .global-nav a.active { color: var(--ink); border-color: var(--blue); font-weight: 700; }
+    .account { display: flex; justify-content: flex-end; align-items: center; gap: 16px; color: var(--muted); font-size: 13px; }
+    .avatar { width: 36px; height: 36px; display: grid; place-items: center; background: var(--ink); color: white; font-weight: 750; border-radius: 50%; }
+    .icon { font-family: "Segoe MDL2 Assets", "Segoe UI Symbol", sans-serif; font-size: 16px; line-height: 1; width: 18px; text-align: center; display: inline-block; color: currentColor; }
+
+    .screen { min-height: 1024px; }
+    .page { padding: 54px 58px 72px; max-width: 1600px; margin: 0 auto; }
+    .eyebrow { text-transform: uppercase; letter-spacing: 0.16em; color: var(--blue); font-size: 12px; font-weight: 780; }
+    h1, h2, h3, p { margin-top: 0; }
+    .display-title { font: 400 72px/0.98 var(--display); letter-spacing: -3.4px; margin-bottom: 24px; max-width: 760px; }
+    .page-title { font: 400 50px/1.05 var(--display); letter-spacing: -2px; margin: 8px 0 12px; }
+    .lead { font-size: 19px; line-height: 1.55; color: #504f4a; max-width: 680px; }
+    .muted { color: var(--muted); }
+    .tiny { font-size: 12px; color: var(--muted); }
+    .btn { border: 1px solid var(--ink); background: transparent; color: var(--ink); min-height: 44px; padding: 0 18px; border-radius: 4px; font-weight: 700; }
+    .btn.primary { background: var(--blue); border-color: var(--blue); color: white; }
+    .btn.ghost { border-color: var(--line); background: var(--surface); }
+    .btn.small { min-height: 38px; padding: 0 14px; font-size: 13px; }
+    .button-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .home-hero { display: grid; grid-template-columns: 0.88fr 1.12fr; gap: 48px; align-items: stretch; }
+    .hero-copy { padding: 46px 0 22px; display: flex; flex-direction: column; justify-content: center; }
+    .hero-art { min-height: 438px; position: relative; overflow: hidden; background: #ddd; box-shadow: var(--shadow); }
+    .hero-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-note { position: absolute; left: 18px; bottom: 18px; background: rgba(251,250,246,.94); border: 1px solid rgba(255,255,255,.6); padding: 13px 16px; max-width: 290px; }
+    .hero-note strong { display: block; margin-bottom: 3px; }
+
+    .section-head { margin-top: 62px; margin-bottom: 22px; display: flex; align-items: end; justify-content: space-between; gap: 24px; }
+    .section-head h2 { font: 400 35px/1.1 var(--display); letter-spacing: -1.3px; margin-bottom: 4px; }
+    .section-head p { margin-bottom: 0; color: var(--muted); }
+    .text-link { color: var(--blue); font-weight: 750; font-size: 14px; }
+
+    .workflow-grid { display: grid; grid-template-columns: 1.55fr .7fr .7fr; gap: 16px; }
+    .workflow-card { min-height: 250px; border: 1px solid var(--line); background: var(--surface); padding: 24px; position: relative; overflow: hidden; }
+    .workflow-card.available { display: grid; grid-template-columns: 0.72fr 1.28fr; gap: 22px; background: #17212a; color: white; border-color: #17212a; }
+    .workflow-card h3 { font-size: 21px; letter-spacing: -0.5px; margin: 12px 0 10px; }
+    .workflow-card p { line-height: 1.45; color: inherit; opacity: .77; }
+    .status { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; font-weight: 800; color: #8fc6e4; }
+    .status.pending { color: var(--signal); }
+    .mini-presets { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .mini-presets img { width: 100%; height: 94px; object-fit: cover; display: block; }
+    .pending-mark { position: absolute; width: 130px; height: 130px; border: 1px solid var(--line); border-radius: 50%; right: -36px; bottom: -34px; }
+    .pending-mark::after { content: ""; position: absolute; inset: 22px; border: 1px solid var(--line); border-radius: 50%; }
+
+    .preset-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .preset-grid.three { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .preset-card { border: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+    .preset-image { height: 188px; overflow: hidden; background: #d9d7cf; }
+    .preset-grid.three .preset-image { height: 235px; }
+    .preset-image img { width: 100%; height: 100%; display: block; object-fit: cover; transition: none; }
+    .preset-body { padding: 17px; }
+    .preset-meta { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--blue); font-weight: 780; }
+    .preset-card h3 { font-size: 18px; margin: 8px 0 8px; letter-spacing: -0.35px; }
+    .preset-card p { color: var(--muted); font-size: 13px; line-height: 1.45; min-height: 39px; margin-bottom: 16px; }
+    .preset-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .preset-actions .text-link { font-size: 13px; }
+    .disclaimer { border-top: 1px solid var(--line); padding-top: 13px; color: var(--muted); font-size: 12px; margin-top: 30px; }
+
+    .catalogue-head { display: flex; justify-content: space-between; gap: 40px; align-items: end; }
+    .catalogue-head .lead { margin-bottom: 0; max-width: 520px; font-size: 16px; }
+    .filters { margin: 34px 0 26px; padding: 14px; border: 1px solid var(--line); background: var(--surface); display: grid; grid-template-columns: 1fr 240px 220px auto; gap: 10px; }
+    .control { height: 44px; border: 1px solid #c9c6bd; background: white; padding: 0 14px; color: var(--ink); border-radius: 3px; }
+
+    .encyclopedia-layout { display: grid; grid-template-columns: 230px 350px minmax(0,1fr); border: 1px solid var(--line); min-height: 850px; background: var(--surface); }
+    .ency-sidebar, .entry-list { border-right: 1px solid var(--line); padding: 28px 22px; }
+    .ency-sidebar h3, .entry-list h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: 22px; }
+    .category { display: block; padding: 12px 10px; border-left: 3px solid transparent; color: #5c5a55; font-size: 14px; }
+    .category.active { border-left-color: var(--blue); background: var(--blue-pale); color: var(--blue-dark); font-weight: 750; }
+    .entry-search { width: 100%; margin-bottom: 18px; }
+    .entry-item { padding: 16px 10px; border-top: 1px solid var(--line); }
+    .entry-item strong { display: block; margin-bottom: 5px; }
+    .entry-item span { color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .entry-item.active { background: #e9f0f4; border-left: 3px solid var(--blue); padding-left: 13px; }
+    .article { padding: 48px 54px 60px; background: white; }
+    .article .article-title { font: 400 48px/1 var(--display); letter-spacing: -1.8px; margin: 9px 0 16px; }
+    .article .definition { font-size: 19px; line-height: 1.55; max-width: 700px; }
+    .article h3 { margin: 34px 0 12px; font-size: 13px; text-transform: uppercase; letter-spacing: .13em; color: var(--blue); }
+    .article p, .article li { line-height: 1.6; color: #4e4d48; }
+    .example-block { border-left: 4px solid var(--signal); background: #f7f2ed; padding: 18px 20px; margin-top: 14px; }
+    .field-map { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+    .field-chip { border: 1px solid var(--line); padding: 12px; font-size: 13px; background: var(--surface); }
+
+    .app-layout { display: grid; grid-template-columns: 248px minmax(0,1fr); min-height: 1024px; }
+    .sidebar { border-right: 1px solid var(--line); background: var(--surface); padding: 24px 16px; }
+    .side-item { display: flex; align-items: center; gap: 10px; padding: 13px 14px; margin: 2px 0; color: #55534e; font-size: 14px; border-left: 3px solid transparent; }
+    .side-item.active { background: var(--blue-pale); border-left-color: var(--blue); color: var(--blue-dark); font-weight: 750; }
+    .side-sep { height: 1px; background: var(--line); margin: 18px 4px; }
+    .side-label { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin: 20px 14px 8px; }
+    .app-main { background: white; padding: 34px 38px 60px; }
+    .app-main h1 { font-size: 38px; letter-spacing: -1.2px; margin-bottom: 8px; }
+    .app-sub { color: var(--muted); margin-bottom: 28px; }
+
+    .build-grid { display: grid; grid-template-columns: minmax(0,1.12fr) minmax(400px,.88fr); border: 1px solid var(--line); }
+    .config-pane { padding: 28px; border-right: 1px solid var(--line); }
+    .prompt-pane { padding: 28px; background: #f8f7f3; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+    .form-grid .wide { grid-column: 1 / -1; }
+    .field label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+    .field label a { color: var(--blue); font-weight: 650; }
+    .field input, .field select, .field textarea { width: 100%; border: 1px solid #cbc8bf; background: white; padding: 10px 11px; border-radius: 3px; color: var(--ink); }
+    .field textarea { min-height: 70px; resize: none; }
+    .config-groups { margin-top: 24px; border: 1px solid var(--line); border-bottom: 0; }
+    .config-group { border-bottom: 1px solid var(--line); background: white; }
+    .config-group summary { min-height: 54px; padding: 12px 15px; display: flex; align-items: center; gap: 10px; cursor: default; list-style: none; font-size: 14px; font-weight: 760; }
+    .config-group summary::-webkit-details-marker { display: none; }
+    .config-group summary::after { content: "\E70D"; font-family: "Segoe MDL2 Assets"; font-size: 12px; color: var(--muted); margin-left: auto; }
+    .config-group[open] summary::after { content: "\E70E"; }
+    .config-group[open] summary { background: #f4f7f8; color: var(--blue-dark); }
+    .config-group-body { padding: 16px; border-top: 1px solid var(--line); }
+    .config-summary { margin-left: auto; margin-right: 14px; color: var(--muted); font-size: 12px; font-weight: 500; }
+    .step { width: 27px; height: 27px; background: var(--blue); color: white; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 800; }
+    .prompt-box { min-height: 625px; border: 1px solid var(--line); background: white; padding: 22px; font: 13px/1.55 Consolas, monospace; white-space: pre-wrap; }
+    .status-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .saved { color: var(--green); font-size: 13px; font-weight: 750; }
+    .build-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+
+    .table-toolbar { display: grid; grid-template-columns: 1fr 230px 250px auto; gap: 12px; margin: 26px 0; }
+    table { border-collapse: collapse; width: 100%; border: 1px solid var(--line); }
+    th, td { text-align: left; padding: 17px 16px; border-bottom: 1px solid var(--line); font-size: 13px; }
+    th { background: #f3f1eb; font-size: 11px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); }
+    tr.selected td { background: #eaf1f5; }
+    .project-blocks { display: flex; gap: 10px; margin: 18px 0 28px; }
+    .project-card { border: 1px solid var(--line); padding: 14px 16px; min-width: 185px; background: var(--surface); }
+    .project-card strong { display: block; margin-bottom: 4px; }
+    .kebab { border: 1px solid var(--line); background: white; width: 34px; height: 34px; border-radius: 3px; }
+
+    @media (max-width: 1100px) {
+      .global-nav { gap: 16px; }
+      .topbar { grid-template-columns: 240px 1fr 100px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    const base = "../../../04_Frontend_Design/Mockups/Assets/Preset_Previews/";
+    const assets = {
+      hard: base + "preset-hard-light-still-life.png",
+      neon: base + "preset-neon-reflection.png",
+      soft: base + "preset-soft-catalog.png",
+      refracted: base + "preset-refracted-glass.png",
+      color: base + "preset-color-block.png",
+      shadow: base + "preset-shadow-luxury.png"
+    };
+
+    const preset = (image, name, intent, action = "Remix") => `
+      <article class="preset-card">
+        <div class="preset-image"><img src="${image}" alt="Sample creative direction for ${name}" /></div>
+        <div class="preset-body">
+          <div class="preset-meta">Product advertising</div>
+          <h3>${name}</h3>
+          <p>${intent}</p>
+          <div class="preset-actions"><a class="text-link">View details</a><button class="btn primary small">${action}</button></div>
+        </div>
+      </article>`;
+
+    function topbar(active) {
+      const items = [
+        ["home", "\uE80F", "Home"], ["build", "\uE70F", "Build"], ["builtin", "\uE8A9", "Built-in"], ["prompts", "\uE8A5", "My Prompts"], ["encyclopedia", "\uE736", "Field Encyclopedia"]
+      ];
+      return `<header class="topbar">
+        <div class="wordmark">VisualPrompt <span>Studio</span></div>
+        <nav class="global-nav" aria-label="Primary">${items.map(([key,icon,label]) => `<a class="${active === key ? "active" : ""}"><span class="icon" aria-hidden="true">${icon}</span>${label}</a>`).join("")}</nav>
+        <div class="account"><div class="avatar">LV</div></div>
+      </header>`;
+    }
+
+    function home() {
+      return `${topbar("home")}<main class="page screen">
+        <section class="home-hero">
+          <div class="hero-copy">
+            <div class="eyebrow">Creative direction, made operational</div>
+            <h1 class="display-title">Build prompts with a point of view.</h1>
+            <p class="lead">Choose a researched Workflow, start from a visual Preset, then shape the details into a prompt you can save, explain and reuse.</p>
+            <div class="button-row"><button class="btn primary">Start building</button><button class="btn">Explore built-in Presets</button></div>
+          </div>
+          <div class="hero-art">
+            <img src="${assets.hard}" alt="Warm hard-light product photograph of a ceramic skincare bottle" />
+            <div class="hero-note"><strong>Hard Light Still Life</strong><span class="tiny">Preset 01 · Clean geometry, tactile materials, precise shadows</span></div>
+          </div>
+        </section>
+
+        <div class="section-head"><div><div class="eyebrow">Workflows</div><h2>Start with a researched field.</h2><p>Each Workflow defines its own fields, rules and Presets.</p></div><a class="text-link">How Workflows work</a></div>
+        <section class="workflow-grid">
+          <article class="workflow-card available">
+            <div><div class="status">Available now</div><h3>Product Advertising and Photography</h3><p>Shape subject, light, material, setting and composition with domain-specific guidance.</p><a class="text-link" style="color:#9ed0ea">Open Workflow</a></div>
+            <div class="mini-presets"><img src="${assets.hard}" alt="Hard light Preset sample"/><img src="${assets.neon}" alt="Neon reflection Preset sample"/><img src="${assets.soft}" alt="Soft catalog Preset sample"/><img src="${assets.refracted}" alt="Refracted glass Preset sample"/></div>
+          </article>
+          <article class="workflow-card"><div class="status pending">Research pending</div><h3>Portrait and Editorial</h3><p>Not released until its field model and conflict rules are researched.</p><div class="pending-mark"></div></article>
+          <article class="workflow-card"><div class="status pending">Research pending</div><h3>Environment and Interior</h3><p>Planned after the MVP Workflow proves the product loop.</p><div class="pending-mark"></div></article>
+        </section>
+
+        <div class="section-head"><div><div class="eyebrow">Featured Presets</div><h2>See the direction before you configure.</h2></div><a class="text-link">Browse all built-in Presets</a></div>
+        <section class="preset-grid">
+          ${preset(assets.hard, "Hard Light Still Life", "Architectural shadows and warm material detail.")}
+          ${preset(assets.neon, "Neon Reflection", "Dark polish, electric rim light and liquid reflections.")}
+          ${preset(assets.soft, "Soft Catalog", "High-key clarity with quiet, near-shadowless form.")}
+          ${preset(assets.color, "Color Block Flash", "Graphic color, direct flash and playful geometry.")}
+        </section>
+        <p class="disclaimer">Sample images demonstrate creative direction. They do not guarantee a particular model output.</p>
+      </main>`;
+    }
+
+    function builtIn() {
+      return `${topbar("builtin")}<main class="page screen">
+        <div class="catalogue-head"><div><div class="eyebrow">Built-in catalogue</div><h1 class="page-title">Presets with visible intent.</h1></div><p class="lead">Compare art direction before opening the form. Every Preset remains editable after you apply or remix it.</p></div>
+        <div class="filters"><input class="control" value="" placeholder="Search Presets"/><select class="control"><option>Product Advertising</option></select><select class="control"><option>All visual styles</option></select><button class="btn primary">Search</button></div>
+        <section class="preset-grid three">
+          ${preset(assets.hard, "Hard Light Still Life", "Architectural shadows and warm material detail.", "Apply")}
+          ${preset(assets.neon, "Neon Reflection", "Dark polish, electric rim light and liquid reflections.", "Apply")}
+          ${preset(assets.soft, "Soft Catalog", "High-key clarity with quiet, near-shadowless form.", "Apply")}
+          ${preset(assets.refracted, "Refracted Glass", "Controlled optical distortion with vivid backlight.", "Apply")}
+          ${preset(assets.color, "Color Block Flash", "Graphic color, direct flash and playful geometry.", "Apply")}
+          ${preset(assets.shadow, "Shadow Luxury", "Black-on-black texture with controlled specular edges.", "Apply")}
+        </section>
+        <p class="disclaimer">Sample images are illustrative references for composition, light and mood. They are not output guarantees. All Presets pass through the same structural validation before generation.</p>
+      </main>`;
+    }
+
+    function encyclopedia() {
+      return `${topbar("encyclopedia")}<main class="page screen">
+        <div class="catalogue-head" style="margin-bottom:28px"><div><div class="eyebrow">Field Encyclopedia</div><h1 class="page-title">Know what each choice changes.</h1></div><p class="lead">Plain-language knowledge for every configurable field in the active Workflow.</p></div>
+        <section class="encyclopedia-layout">
+          <aside class="ency-sidebar"><h3>Categories</h3><a class="category">Product identity</a><a class="category active">Lighting</a><a class="category">Setting</a><a class="category">Composition</a><a class="category">Camera and lens</a><a class="category">Materials</a><a class="category">Mood and finish</a><a class="category">Output</a></aside>
+          <div class="entry-list"><h3>Lighting fields</h3><input class="control entry-search" placeholder="Search fields" value=""/><div class="entry-item active"><strong>Key light quality</strong><span>Controls edge definition, texture and shadow behavior.</span></div><div class="entry-item"><strong>Key light direction</strong><span>Sets the dominant direction and form of the subject.</span></div><div class="entry-item"><strong>Fill ratio</strong><span>Defines how much contrast remains outside the key light.</span></div><div class="entry-item"><strong>Rim light</strong><span>Separates reflective or dark products from the background.</span></div><div class="entry-item"><strong>Shadow character</strong><span>Describes hardness, length and visual weight.</span></div></div>
+          <article class="article"><div class="eyebrow">Lighting · Definition</div><h2 class="article-title">Key light quality</h2><p class="definition">The apparent size and diffusion of the main light source. It determines how sharply the product turns from light to shadow and how strongly surface texture is revealed.</p>
+            <h3>What it changes</h3><p>A hard key creates crisp edges, strong local contrast and visible microtexture. A soft key creates broad transitions, gentler reflections and a more forgiving material read.</p>
+            <h3>Example direction</h3><div class="example-block"><strong>Hard and precise</strong><p style="margin:6px 0 0">Use a small, undiffused key from camera left to create one clean shadow with a defined edge. Keep fill low enough to preserve the form.</p></div>
+            <h3>Watch for</h3><ul><li>Glossy packaging can show distracting source reflections.</li><li>Hard light may exaggerate dents, dust or uneven labels.</li><li>Soft does not mean flat. Preserve direction and shape.</li></ul>
+            <h3>Related fields</h3><div class="field-map"><div class="field-chip">Key light direction</div><div class="field-chip">Fill ratio</div><div class="field-chip">Shadow character</div></div>
+          </article>
+        </section>
+      </main>`;
+    }
+
+    function sidebar(active) {
+      const nav = [["home","\uE80F","Home"],["build","\uE70F","Build"],["builtin","\uE8A9","Built-in"],["prompts","\uE8A5","My Prompts"],["encyclopedia","\uE736","Field Encyclopedia"]];
+      const sideItem = (icon, label, extra = "") => `<div class="side-item ${extra}"><span class="icon" aria-hidden="true">${icon}</span>${label}</div>`;
+      return `<aside class="sidebar">${nav.map(([k,i,l]) => sideItem(i,l,active===k?"active":"")).join("")}<div class="side-sep"></div><div class="side-label">Workspace</div>${sideItem("\uE838","No Project")}<div class="side-label">Projects</div>${sideItem("\uE8B7","Campaign Launch")}${sideItem("\uE8B7","Catalog Refresh")}</aside>`;
+    }
+
+    function build() {
+      return `${topbar("build")}<div class="app-layout">${sidebar("build")}<main class="app-main"><h1>Build a prompt</h1><p class="app-sub">Product Advertising and Photography · Sculptural Studio Hero</p>
+        <section class="build-grid"><div class="config-pane">
+          <div class="form-grid"><div class="field"><label>Prompt name</label><input value="Ivory Ritual Launch"/></div><div class="field"><label>Destination</label><select><option>Campaign Launch</option></select></div><div class="field wide"><label>Preset</label><select><option>Sculptural Studio Hero</option></select></div></div>
+          <div class="config-groups" aria-label="Prompt configuration groups">
+            <details class="config-group" open><summary><span class="step">1</span>Product identity <span class="config-summary">5 fields</span></summary><div class="config-group-body"><div class="form-grid"><div class="field"><label>Product name <a>Learn</a></label><input value="Ivory Ritual"/></div><div class="field"><label>Product type <a>Learn</a></label><select><option>Skincare</option></select></div><div class="field wide"><label>Short description <a>Learn about this field</a></label><textarea>Premium plant-based skin cream in frosted glass with a matte ivory lid.</textarea></div><div class="field"><label>Brand</label><input value="Luma Beauty"/></div><div class="field"><label>Material emphasis</label><select><option>Frosted glass</option></select></div></div></div></details>
+            <details class="config-group" open><summary><span class="step">2</span>Lighting and composition <span class="config-summary">4 fields</span></summary><div class="config-group-body"><div class="form-grid"><div class="field"><label>Key light quality <a>Learn</a></label><select><option>Soft directional</option></select></div><div class="field"><label>Composition <a>Learn</a></label><select><option>Centered hero</option></select></div><div class="field"><label>Background</label><select><option>Warm off-white studio</option></select></div><div class="field"><label>Output ratio</label><select><option>Landscape 16:10</option></select></div></div></div></details>
+            <details class="config-group"><summary><span class="step">3</span>Camera and optics <span class="config-summary">6 fields · Preset defaults</span></summary><div class="config-group-body"><div class="form-grid"><div class="field"><label>Lens character</label><select><option>Clean commercial</option></select></div><div class="field"><label>Focus behavior</label><select><option>Full product sharpness</option></select></div></div></div></details>
+            <details class="config-group"><summary><span class="step">4</span>Materials and styling <span class="config-summary">7 fields · Preset defaults</span></summary><div class="config-group-body"><div class="form-grid"><div class="field"><label>Surface treatment</label><select><option>Matte architectural</option></select></div><div class="field"><label>Prop restraint</label><select><option>Minimal</option></select></div></div></div></details>
+            <details class="config-group"><summary><span class="step">5</span>Output and guardrails <span class="config-summary">8 fields · 2 customized</span></summary><div class="config-group-body"><div class="form-grid"><div class="field"><label>Output detail</label><select><option>Balanced</option></select></div><div class="field"><label>Exclusions</label><input value="People, extra claims"/></div></div></div></details>
+          </div>
+          <div class="build-footer"><button class="btn"><span class="icon" aria-hidden="true">&#xE74E;</span> Save configuration</button><button class="btn primary"><span class="icon" aria-hidden="true">&#xE768;</span> Generate prompt</button></div>
+        </div><aside class="prompt-pane"><div class="status-row"><strong>Generated prompt</strong><span class="saved">Saved to Campaign Launch</span></div><div class="prompt-box"># Product image brief
+
+Create a sculptural studio photograph of **Ivory Ritual** by Luma Beauty.
+
+## Subject
+- Frosted glass skincare jar with a matte ivory lid
+- Natural, premium, quiet visual language
+
+## Lighting
+- Soft directional key from camera left
+- Gentle fill with controlled contrast
+- Preserve frosted-glass texture and clean edges
+
+## Composition
+- Centered hero product with ample negative space
+- Warm off-white architectural background
+- Landscape 16:10 output
+
+## Guardrails
+- No people
+- No additional packaging claims
+- Keep material and brand details accurate</div><div class="build-footer"><button class="btn">Copy</button><button class="btn">Regenerate</button></div></aside></section>
+      </main></div>`;
+    }
+
+    function prompts() {
+      return `${topbar("prompts")}<div class="app-layout">${sidebar("prompts")}<main class="app-main"><div style="display:flex;justify-content:space-between;align-items:start"><div><h1>My Prompts</h1><p class="app-sub">Saved prompts in this Workspace</p></div><button class="btn primary">Build a prompt</button></div>
+        <div class="project-blocks"><div class="project-card"><strong>No Project</strong><span class="tiny">1 prompt</span></div><div class="project-card"><strong>Campaign Launch</strong><span class="tiny">2 prompts</span></div><div class="project-card"><strong>Catalog Refresh</strong><span class="tiny">1 prompt</span></div></div>
+        <div class="table-toolbar"><input class="control" placeholder="Search by prompt name"/><select class="control"><option>All created dates</option></select><select class="control"><option>All projects</option></select><button class="btn">Clear filters</button></div>
+        <table><thead><tr><th>Name</th><th>Workflow</th><th>Project</th><th>Created</th><th>Updated</th><th>Actions</th></tr></thead><tbody><tr class="selected"><td><strong>Ivory Ritual Launch</strong></td><td>Product Advertising</td><td>Campaign Launch</td><td>Mar 12, 2026</td><td>Apr 16, 2026</td><td><button class="kebab">•••</button></td></tr><tr><td><strong>Clean Catalog Bottle</strong></td><td>Product Advertising</td><td>No Project</td><td>Feb 28, 2026</td><td>Apr 02, 2026</td><td><button class="kebab">•••</button></td></tr><tr><td><strong>Morning Desk Context</strong></td><td>Product Advertising</td><td>Campaign Launch</td><td>Mar 05, 2026</td><td>Mar 30, 2026</td><td><button class="kebab">•••</button></td></tr><tr><td><strong>Macro Pump Detail</strong></td><td>Product Advertising</td><td>Catalog Refresh</td><td>Jan 21, 2026</td><td>Mar 14, 2026</td><td><button class="kebab">•••</button></td></tr></tbody></table>
+      </main></div>`;
+    }
+
+    const screen = new URLSearchParams(location.search).get("screen") || "home";
+    const renderers = { home, builtin: builtIn, encyclopedia, build, prompts };
+    document.getElementById("app").innerHTML = (renderers[screen] || home)();
+  </script>
+</body>
+</html>

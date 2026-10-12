@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kiến trúc frontend và luồng state của VisualPrompt Studio</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #edf2f7;
+      --panel: #ffffff;
+      --ink: #102033;
+      --muted: #536274;
+      --line: #73879b;
+      --grid: #dce5ed;
+      --frontend-fill: #e9f4fb;
+      --frontend-stroke: #1f6f9b;
+      --domain-fill: #eef8f2;
+      --domain-stroke: #2f7d58;
+      --data-fill: #fff5df;
+      --data-stroke: #a16411;
+      --external-fill: #f2f4f7;
+      --external-stroke: #59697a;
+      --future-fill: #f8f0fb;
+      --future-stroke: #7b5a8e;
+      --focus: #0069a8;
+      --shadow: 0 18px 50px rgb(15 32 51 / 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --page: #0d1722;
+      --panel: #132231;
+      --ink: #ecf4fb;
+      --muted: #aebdca;
+      --line: #9eb0bf;
+      --grid: #223648;
+      --frontend-fill: #123a52;
+      --frontend-stroke: #75c2ee;
+      --domain-fill: #173a2d;
+      --domain-stroke: #7ed7aa;
+      --data-fill: #493718;
+      --data-stroke: #f0bf68;
+      --external-fill: #293744;
+      --external-stroke: #b8c6d2;
+      --future-fill: #382b42;
+      --future-stroke: #d2aee2;
+      --focus: #75c2ee;
+      --shadow: 0 22px 65px rgb(0 0 0 / 0.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--page);
+      color: var(--ink);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+    .shell { width: min(1500px, calc(100vw - 40px)); margin: 0 auto; padding: 28px 0 36px; }
+    .toolbar { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 12px; }
+    button {
+      border: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--ink);
+      padding: 9px 13px;
+      font: 600 13px/1 "Segoe UI", Arial, sans-serif;
+      cursor: pointer;
+    }
+    button:focus-visible { outline: 3px solid color-mix(in srgb, var(--focus) 45%, transparent); outline-offset: 2px; }
+    .header { margin: 0 0 16px; }
+    h1 { margin: 0; font-size: clamp(25px, 2.5vw, 38px); line-height: 1.12; letter-spacing: -0.02em; }
+    .subtitle { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
+    .diagram-panel {
+      background: var(--panel);
+      border: 1px solid color-mix(in srgb, var(--line) 34%, transparent);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      overflow: hidden;
+    }
+    svg { display: block; width: 100%; height: auto; min-height: 660px; }
+    .grid-line { stroke: var(--grid); stroke-width: 1; }
+    .edge { fill: none; stroke: var(--line); stroke-width: 2.2; marker-end: url(#arrow); }
+    .edge.main { stroke: var(--frontend-stroke); stroke-width: 3; marker-end: url(#arrowMain); }
+    .edge.guard { stroke: var(--domain-stroke); marker-end: url(#arrowDomain); }
+    .edge.future { stroke: var(--future-stroke); stroke-dasharray: 9 7; marker-end: url(#arrowFuture); }
+    .edge-label rect { fill: var(--panel); opacity: 0.96; }
+    .edge-label text { fill: var(--muted); font-size: 13px; font-weight: 600; }
+    .node { cursor: pointer; transition: opacity 140ms ease, transform 140ms ease; transform-box: fill-box; transform-origin: center; }
+    .node:hover { transform: translateY(-2px); }
+    .node rect { stroke-width: 2; rx: 10; }
+    .node.external rect { fill: var(--external-fill); stroke: var(--external-stroke); }
+    .node.frontend rect { fill: var(--frontend-fill); stroke: var(--frontend-stroke); }
+    .node.domain rect { fill: var(--domain-fill); stroke: var(--domain-stroke); }
+    .node.data rect { fill: var(--data-fill); stroke: var(--data-stroke); }
+    .node.future rect { fill: var(--future-fill); stroke: var(--future-stroke); stroke-dasharray: 7 5; }
+    .node .label { fill: var(--ink); font-size: 17px; font-weight: 700; text-anchor: middle; }
+    .node .detail { fill: var(--muted); font-size: 12.5px; text-anchor: middle; }
+    .node .tag { fill: var(--muted); font-size: 10.5px; font-weight: 700; text-anchor: middle; letter-spacing: 0.08em; }
+    .lane-title { fill: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; }
+    .lane-rule { stroke: color-mix(in srgb, var(--line) 38%, transparent); stroke-width: 1.2; }
+    svg[data-focus] .node:not(.is-related) { opacity: 0.28; }
+    svg[data-focus] .edge:not(.is-related), svg[data-focus] .edge-label:not(.is-related) { opacity: 0.18; }
+    .notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+    .note { border-top: 3px solid var(--frontend-stroke); padding: 12px 4px 0; }
+    .note:nth-child(2) { border-color: var(--domain-stroke); }
+    .note:nth-child(3) { border-color: var(--data-stroke); }
+    .note h2 { margin: 0 0 7px; font-size: 14px; }
+    .note p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+    @media (max-width: 900px) {
+      .shell { width: min(100% - 20px, 1500px); padding-top: 16px; }
+      .notes { grid-template-columns: 1fr; }
+      .diagram-panel { overflow-x: auto; }
+      svg { width: 1180px; max-width: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { .node { transition: none; } }
+    @media print {
+      body { background: #fff; }
+      .toolbar, .notes { display: none; }
+      .shell { width: 100%; padding: 0; }
+      .diagram-panel { border: 0; box-shadow: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="toolbar" aria-label="Điều khiển sơ đồ">
+      <button id="reset" type="button">Đặt lại focus</button>
+      <button id="theme" type="button" aria-pressed="false">Chế độ tối</button>
+      <button id="export" type="button">Xuất PNG</button>
+    </div>
+    <header class="header">
+      <h1>Kiến trúc frontend và luồng state của VisualPrompt Studio</h1>
+      <p class="subtitle">Vanilla TypeScript, pure domain core và persistence adapter có thể thay thế</p>
+    </header>
+    <section class="diagram-panel" aria-label="Sơ đồ kiến trúc frontend">
+      <svg id="diagram" viewBox="0 0 1200 720" role="img" aria-labelledby="svg-title svg-desc">
+        <title id="svg-title">Kiến trúc frontend VisualPrompt Studio</title>
+        <desc id="svg-desc">Luồng từ Content Creator qua UI Views, App Coordinator, typed state, domain core và StorageService tới localStorage hoặc database adapter trong tương lai.</desc>
+        <defs>
+          <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+            <path d="M32 0H0V32" class="grid-line" fill="none"/>
+          </pattern>
+          <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8Z" fill="var(--line)"/></marker>
+          <marker id="arrowMain" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8Z" fill="var(--frontend-stroke)"/></marker>
+          <marker id="arrowDomain" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8Z" fill="var(--domain-stroke)"/></marker>
+          <marker id="arrowFuture" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8Z" fill="var(--future-stroke)"/></marker>
+        </defs>
+        <rect width="1200" height="720" fill="url(#grid)"/>
+
+        <text x="26" y="34" class="lane-title">DEFINITION VÀ PURE LOGIC</text>
+        <line x1="26" y1="45" x2="1174" y2="45" class="lane-rule"/>
+        <text x="26" y="255" class="lane-title">INTERACTION VÀ APPLICATION STATE</text>
+        <line x1="26" y1="266" x2="1174" y2="266" class="lane-rule"/>
+        <text x="26" y="500" class="lane-title">PERSISTENCE BOUNDARY</text>
+        <line x1="26" y1="511" x2="1174" y2="511" class="lane-rule"/>
+
+        <path id="e-creator-views" data-from="creator" data-to="views" class="edge main" d="M180 349H244"/>
+        <g id="l-creator-views" class="edge-label" data-from="creator" data-to="views"><rect x="183" y="318" width="58" height="24" rx="6"/><text x="212" y="334" text-anchor="middle">actions</text></g>
+        <path id="e-views-coordinator" data-from="views" data-to="coordinator" class="edge main" d="M454 349H514"/>
+        <g id="l-views-coordinator" class="edge-label" data-from="views" data-to="coordinator"><rect x="458" y="318" width="52" height="24" rx="6"/><text x="484" y="334" text-anchor="middle">events</text></g>
+        <path id="e-coordinator-state" data-from="coordinator" data-to="state" class="edge main" d="M724 349H784"/>
+        <g id="l-coordinator-state" class="edge-label" data-from="coordinator" data-to="state"><rect x="728" y="318" width="52" height="24" rx="6"/><text x="754" y="334" text-anchor="middle">commit</text></g>
+        <path id="e-state-views" data-from="state" data-to="views" class="edge" d="M889 398V454H349V400"/>
+        <g id="l-state-views" class="edge-label" data-from="state" data-to="views"><rect x="550" y="442" width="138" height="24" rx="6"/><text x="619" y="458" text-anchor="middle">render snapshot</text></g>
+        <path id="e-catalog-form" data-from="catalog" data-to="form" class="edge" d="M440 133H514"/>
+        <g id="l-catalog-form" class="edge-label" data-from="catalog" data-to="form"><rect x="444" y="101" width="66" height="24" rx="6"/><text x="477" y="117" text-anchor="middle">definitions</text></g>
+        <path id="e-form-views" data-from="form" data-to="views" class="edge" d="M619 182V220H349V300"/>
+        <g id="l-form-views" class="edge-label" data-from="form" data-to="views"><rect x="390" y="208" width="168" height="24" rx="6"/><text x="474" y="224" text-anchor="middle">controls và field errors</text></g>
+        <path id="e-coordinator-domain" data-from="coordinator" data-to="domain" class="edge guard" d="M619 300V228H889V182"/>
+        <g id="l-coordinator-domain" class="edge-label" data-from="coordinator" data-to="domain"><rect x="690" y="216" width="150" height="24" rx="6"/><text x="765" y="232" text-anchor="middle">validate hoặc compile</text></g>
+        <path id="e-domain-state" data-from="domain" data-to="state" class="edge guard" d="M889 182V300"/>
+        <g id="l-domain-state" class="edge-label" data-from="domain" data-to="state"><rect x="900" y="226" width="182" height="38" rx="6"/><text x="991" y="242" text-anchor="middle">errors hoặc</text><text x="991" y="258" text-anchor="middle">generated baseline</text></g>
+        <path id="e-coordinator-storage" data-from="coordinator" data-to="storage" class="edge main" d="M619 398V548"/>
+        <g id="l-coordinator-storage" class="edge-label" data-from="coordinator" data-to="storage"><rect x="630" y="458" width="184" height="38" rx="6"/><text x="722" y="474" text-anchor="middle">CRUD after</text><text x="722" y="490" text-anchor="middle">revalidation</text></g>
+        <path id="e-storage-local" data-from="storage" data-to="local" class="edge" d="M724 594H784"/>
+        <g id="l-storage-local" class="edge-label" data-from="storage" data-to="local"><rect x="728" y="562" width="52" height="24" rx="6"/><text x="754" y="578" text-anchor="middle">MVP</text></g>
+        <path id="e-storage-db" data-from="storage" data-to="database" class="edge future" d="M619 640V678H889V652"/>
+        <g id="l-storage-db" class="edge-label" data-from="storage" data-to="database"><rect x="704" y="661" width="58" height="24" rx="6"/><text x="733" y="677" text-anchor="middle">future</text></g>
+
+        <g id="creator" class="node external" tabindex="0" role="button" aria-label="Content Creator"><rect x="26" y="300" width="154" height="98"/><text x="103" y="330" class="label">Content Creator</text><text x="103" y="354" class="detail">mouse và keyboard</text><text x="103" y="380" class="tag">ACTOR</text></g>
+        <g id="views" class="node frontend" tabindex="0" role="button" aria-label="UI Views"><rect x="244" y="300" width="210" height="98"/><text x="349" y="328" class="label">UI Views</text><text x="349" y="352" class="detail">Workflow, Config, Prompt</text><text x="349" y="370" class="detail">và My Prompts</text><text x="349" y="389" class="tag">SEMANTIC DOM</text></g>
+        <g id="coordinator" class="node frontend" tabindex="0" role="button" aria-label="App Coordinator"><rect x="514" y="300" width="210" height="98"/><text x="619" y="328" class="label">App Coordinator</text><text x="619" y="352" class="detail">events, actions và</text><text x="619" y="370" class="detail">render cycle</text><text x="619" y="389" class="tag">ORCHESTRATION</text></g>
+        <g id="state" class="node frontend" tabindex="0" role="button" aria-label="Typed App State"><rect x="784" y="300" width="210" height="98"/><text x="889" y="328" class="label">Typed App State</text><text x="889" y="352" class="detail">config, baseline, edited text</text><text x="889" y="370" class="detail">và UI state</text><text x="889" y="389" class="tag">SINGLE OWNER</text></g>
+        <g id="catalog" class="node data" tabindex="0" role="button" aria-label="Workflow Catalog"><rect x="230" y="84" width="210" height="98"/><text x="335" y="112" class="label">Workflow Catalog</text><text x="335" y="138" class="detail">fields và 4 Product Presets</text><text x="335" y="166" class="tag">SYSTEM OWNED</text></g>
+        <g id="form" class="node frontend" tabindex="0" role="button" aria-label="Schema Form Renderer"><rect x="514" y="84" width="210" height="98"/><text x="619" y="112" class="label">Schema Form Renderer</text><text x="619" y="138" class="detail">native controls và inline errors</text><text x="619" y="166" class="tag">REUSABLE</text></g>
+        <g id="domain" class="node domain" tabindex="0" role="button" aria-label="Pure Domain Core"><rect x="784" y="84" width="210" height="98"/><text x="889" y="112" class="label">Pure Domain Core</text><text x="889" y="136" class="detail">PromptValidator và</text><text x="889" y="154" class="detail">PromptCompiler</text><text x="889" y="173" class="tag">NO DOM OR STORAGE</text></g>
+        <g id="storage" class="node domain" tabindex="0" role="button" aria-label="StorageService"><rect x="514" y="548" width="210" height="92"/><text x="619" y="577" class="label">StorageService</text><text x="619" y="601" class="detail">async CRUD và error mapping</text><text x="619" y="627" class="tag">STABLE INTERFACE</text></g>
+        <g id="local" class="node data" tabindex="0" role="button" aria-label="LocalStorageAdapter"><rect x="784" y="548" width="210" height="92"/><text x="889" y="577" class="label">LocalStorageAdapter</text><text x="889" y="601" class="detail">versioned JSON envelope</text><text x="889" y="627" class="tag">MVP CURRENT</text></g>
+        <g id="database" class="node future" tabindex="0" role="button" aria-label="DatabaseAdapter"><rect x="784" y="652" width="210" height="60"/><text x="889" y="678" class="label">DatabaseAdapter</text><text x="889" y="700" class="detail">DR-005 future</text></g>
+      </svg>
+    </section>
+    <section class="notes" aria-label="Nguyên tắc kiến trúc">
+      <article class="note"><h2>State ownership</h2><p>Structured configuration là source of truth. Manual edit chỉ đổi editedPrompt. Regenerate sau manual edit cần confirmation.</p></article>
+      <article class="note"><h2>Dependency rule</h2><p>UI không truy cập localStorage trực tiếp. Pure Domain Core không phụ thuộc DOM hoặc persistence.</p></article>
+      <article class="note"><h2>MVP boundary</h2><p>Vanilla TypeScript và browser APIs là mặc định. Database adapter và visual style được quyết định sau.</p></article>
+    </section>
+  </main>
+  <script>
+    const root = document.documentElement;
+    const svg = document.getElementById('diagram');
+    const nodes = [...svg.querySelectorAll('.node')];
+    const edges = [...svg.querySelectorAll('.edge, .edge-label')];
+    function focusNode(id) {
+      svg.dataset.focus = id;
+      nodes.forEach(node => node.classList.toggle('is-related', node.id === id));
+      edges.forEach(edge => {
+        const related = edge.dataset.from === id || edge.dataset.to === id;
+        edge.classList.toggle('is-related', related);
+        if (related) {
+          const other = edge.dataset.from === id ? edge.dataset.to : edge.dataset.from;
+          document.getElementById(other)?.classList.add('is-related');
+        }
+      });
+    }
+    function resetFocus() {
+      delete svg.dataset.focus;
+      nodes.forEach(node => node.classList.remove('is-related'));
+      edges.forEach(edge => edge.classList.remove('is-related'));
+    }
+    nodes.forEach(node => {
+      node.addEventListener('click', () => focusNode(node.id));
+      node.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); focusNode(node.id); }
+        if (event.key === 'Escape') resetFocus();
+      });
+    });
+    document.getElementById('reset').addEventListener('click', resetFocus);
+    document.getElementById('theme').addEventListener('click', event => {
+      const dark = root.dataset.theme !== 'dark';
+      root.dataset.theme = dark ? 'dark' : 'light';
+      event.currentTarget.textContent = dark ? 'Chế độ sáng' : 'Chế độ tối';
+      event.currentTarget.setAttribute('aria-pressed', String(dark));
+    });
+    document.getElementById('export').addEventListener('click', () => {
+      resetFocus();
+      const clone = svg.cloneNode(true);
+      clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      const style = document.querySelector('style').textContent;
+      clone.insertAdjacentHTML('afterbegin', `<style>${style}</style>`);
+      const data = new XMLSerializer().serializeToString(clone);
+      const image = new Image();
+      image.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 2400; canvas.height = 1440;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = getComputedStyle(root).getPropertyValue('--panel');
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+        const link = document.createElement('a');
+        link.download = 'VisualPrompt_Studio_Frontend_Module_and_State_Flow.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      };
+      image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(data);
+    });
+  </script>
+</body>
+</html>

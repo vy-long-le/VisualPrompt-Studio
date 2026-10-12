@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "7d95fe9c-9744-403f-8ff9-7fcfb3a454f0",
+  "status": "current",
+  "command": "deliver",
+  "type": "dataflow",
+  "input": "C:\\Users\\LeVy\\Documents\\Codex\\2026-10-07\\let-s-recreate-the-doc-01\\.archify\\dataflow-domain-data-20261008-update\\candidate.json",
+  "output": "C:\\Users\\LeVy\\Documents\\Codex\\2026-10-07\\let-s-recreate-the-doc-01\\outputs\\VisualPrompt_Studio_Domain_Data_Flow_archify.html",
+  "specification": {
+    "sha256": "e12ce51cd86e753ec1f4501942512c0968a429ced9872a3a774ea64f44888dd3",
+    "bytes": 6112
+  },
+  "artifact": {
+    "sha256": "855a5ac548dcbaaa55a887ffce9d4110c96727df7e578d412fe6c6611ad49083",
+    "bytes": 764155
+  }
+}

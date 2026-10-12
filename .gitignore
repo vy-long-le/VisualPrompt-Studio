@@ -1,0 +1,42 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies and production output
+node_modules
+dist
+dist-ssr
+*.local
+
+# Test output
+playwright-report
+test-results
+
+# Generated documentation QA renders
+# Keep the source builders, audit JSON, accessibility reports, receipts,
+# originals, formatted documents, and builder-verification records.
+# Ignore only repeated page-image/PDF render directories.
+docs/09_Sources_and_Working_Files/Documentation_Process/Formatting_Audit_Work/render_*/
+docs/09_Sources_and_Working_Files/Documentation_Process/Formatting_Audit_Work/final_*/
+docs/09_Sources_and_Working_Files/Documentation_Process/Formatting_Audit_Work/verified_*/
+docs/09_Sources_and_Working_Files/Documentation_Process/DOC06_Work/render*/
+
+# Python caches created by documentation utilities
+**/__pycache__/
+*.py[cod]
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
