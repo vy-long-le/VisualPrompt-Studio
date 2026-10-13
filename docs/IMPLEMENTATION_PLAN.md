@@ -1,6 +1,6 @@
 # VisualPrompt Studio Product MVP — Implementation Plan
 
-**Status:** Active · **Plan version:** 1.2 · **Date:** 13 October 2026  
+**Status:** Active · **Plan version:** 1.3 · **Date:** 13 October 2026
 **Implementation status:** M1 Complete; M2 In Progress  
 **Application test status:** M1 type checking, unit tests, production build, and five Edge browser checks passed; mandatory Chrome evidence remains for M7  
 **Canonical document:** `docs/IMPLEMENTATION_PLAN.md`
@@ -138,7 +138,9 @@ Every milestone starts from the accepted result of its dependencies. Case IDs be
 **Status:** In Progress — 13 October 2026  
 **Dependency:** M1.
 
-**Current substep:** M2.1 reconciliation is complete in `implementation/M2_CATALOGUE_RECONCILIATION.md`; M2.2 typed runtime catalogue contracts and immutable version constants are next.
+**Current substep:** M2.1 reconciliation and M2.2 typed runtime catalogue contracts are complete. M2.3 field groups, field definitions, canonical option dictionaries, and reviewed English knowledge entries are in progress.
+
+**M2.2 completion evidence:** Commit `843602f` (`Define M2 runtime catalogue contracts`) is pushed to `origin/main` with local/remote divergence `0 0`. The public boundary defines schema, catalogue, compiler, profile, locale, Workflow, field-group, field, Preset, profile, validation-rule, preview-asset, knowledge-entry, envelope, issue, and repository contracts. The combined unit-test, TypeScript, and production-build check passed before push.
 
 **Deliverables**
 

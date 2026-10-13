@@ -1,8 +1,8 @@
 # M2 Catalogue Reconciliation Register
 
-**Status:** Active · **Register version:** 1.0 · **Date:** 13 October 2026  
+**Status:** Active · **Register version:** 1.1 · **Date:** 13 October 2026
 **Milestone:** M2 — Runtime catalogue and executable-test inputs  
-**Current result:** M2.1 source reconciliation complete; runtime implementation not started
+**Current result:** M2.1 source reconciliation and M2.2 typed runtime boundary complete; M2.3 runtime field catalogue in progress
 
 ## 1. Purpose and authority
 
@@ -109,8 +109,8 @@
 | Substep | Deliverable | Status | Completion condition |
 |---|---|---|---|
 | M2.1 | Source inventory and reconciliation register | **Complete** | Counts verified; obsolete metadata mapped to current decisions; archival sources unchanged. |
-| M2.2 | Typed runtime catalogue boundary and immutable version constants | **Next** | Complete TypeScript contracts compile; no runtime data or validation is faked. |
-| M2.3 | Thirty fields, dictionaries, five categories, and English knowledge | Not Started | Every field occurs once, every option reference resolves, and every field has reviewed English help. |
+| M2.2 | Typed runtime catalogue boundary and immutable version constants | **Complete** | Commit `843602f` is pushed; complete contracts compile; the combined unit-test, TypeScript, and production-build check passed; no runtime data or validation was faked. |
+| M2.3 | Thirty fields, dictionaries, five categories, and English knowledge | **In Progress** | Every field occurs once, every option reference resolves, and every field has reviewed English help. |
 | M2.4 | Ten Presets, ten researched profiles, neutral profile, and preview map | Not Started | Preset/profile/default/preview relationships are explicit and valid. |
 | M2.5 | Catalogue guards and `check:catalogue` command | Not Started | Valid catalogue exits zero; required deliberately broken fixtures exit nonzero. |
 | M2.6 | Register all 372 fixtures plus golden and invalid datasets | Not Started | Every fixture has concrete input, independent oracle, owning case, and execution disposition. |
@@ -122,7 +122,7 @@
 
 [Certain] Database implementation remains deferred behind DR-005. Other Workflow fields and rules remain deferred behind OQ-001 and OQ-003. They must not be introduced into the Product runtime catalogue.
 
-## 10. M2.2 handoff
+## 10. M2.3 handoff
 
-[Certain] The next implementation step is to define the complete TypeScript catalogue contracts and version constants without importing the archival JSON directly and without adding placeholder data. The first runtime files should establish the read-only boundary required by DOC-04; populated catalogue data follows only after those contracts compile.
+[Certain] The next implementation step is to populate the approved five field groups, all 30 Product field definitions, their canonical option dictionaries, and one reviewed English knowledge entry per field. Preserve value IDs and stored values exactly, translate explanatory content without adding claims, and use the typed boundary from commit `843602f`. Do not add Presets, profiles, preview mappings, validation execution, fixtures, or a placeholder `check:catalogue` command in M2.3.
 

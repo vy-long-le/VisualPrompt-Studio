@@ -1,0 +1,80 @@
+import { PRODUCT_WORKFLOW_ID } from "../ids";
+import type { ProductFieldGroupDefinition } from "../types";
+
+export const PRODUCT_FIELD_GROUPS = [
+  {
+    id: "product-identity",
+    workflowId: PRODUCT_WORKFLOW_ID,
+    label: "Product identity",
+    order: 1,
+    fieldIds: [
+      "product-description",
+      "reference-mode",
+      "reference-notes",
+      "preserve-details",
+      "use-case",
+      "creative-objective",
+      "audience",
+    ],
+    defaultOpen: true,
+  },
+  {
+    id: "lighting-composition",
+    workflowId: PRODUCT_WORKFLOW_ID,
+    label: "Lighting and composition",
+    order: 2,
+    fieldIds: [
+      "lighting-style",
+      "light-direction",
+      "shadow-treatment",
+      "composition",
+    ],
+    defaultOpen: true,
+  },
+  {
+    id: "camera-optics",
+    workflowId: PRODUCT_WORKFLOW_ID,
+    label: "Camera and optics",
+    order: 3,
+    fieldIds: [
+      "shot-size",
+      "camera-angle",
+      "focus-treatment",
+      "detail-target",
+      "scale-cue",
+    ],
+    defaultOpen: false,
+  },
+  {
+    id: "materials-styling",
+    workflowId: PRODUCT_WORKFLOW_ID,
+    label: "Materials and styling",
+    order: 4,
+    fieldIds: [
+      "placement-surface",
+      "environment",
+      "props",
+      "product-arrangement",
+      "material-emphasis",
+      "palette",
+      "mood",
+      "visual-treatment",
+      "interaction-action",
+    ],
+    defaultOpen: false,
+  },
+  {
+    id: "output-guardrails",
+    workflowId: PRODUCT_WORKFLOW_ID,
+    label: "Output and guardrails",
+    order: 5,
+    fieldIds: [
+      "copy-treatment",
+      "copy-space",
+      "exact-copy",
+      "aspect-ratio",
+      "exclusions",
+    ],
+    defaultOpen: false,
+  },
+] as const satisfies readonly ProductFieldGroupDefinition[];
