@@ -26,7 +26,12 @@ export type {
   ProductWorkflowId,
 } from "./ids";
 
-export { PRODUCT_FIELD_GROUPS, PRODUCT_WORKFLOW } from "./product";
+export {
+  PRODUCT_FIELD_GROUPS,
+  PRODUCT_FIELD_OPTION_DICTIONARY,
+  PRODUCT_FIELDS,
+  PRODUCT_WORKFLOW,
+} from "./product";
 
 export type {
   ProductAllPredicate,

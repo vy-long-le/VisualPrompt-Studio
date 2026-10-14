@@ -1,6 +1,6 @@
 # VisualPrompt Studio Product MVP — Implementation Plan
 
-**Status:** Active · **Plan version:** 1.3 · **Date:** 13 October 2026
+**Status:** Active · **Plan version:** 1.4 · **Date:** 13 October 2026
 **Implementation status:** M1 Complete; M2 In Progress  
 **Application test status:** M1 type checking, unit tests, production build, and five Edge browser checks passed; mandatory Chrome evidence remains for M7  
 **Canonical document:** `docs/IMPLEMENTATION_PLAN.md`
@@ -138,9 +138,11 @@ Every milestone starts from the accepted result of its dependencies. Case IDs be
 **Status:** In Progress — 13 October 2026  
 **Dependency:** M1.
 
-**Current substep:** M2.1 reconciliation and M2.2 typed runtime catalogue contracts are complete. M2.3 field groups, field definitions, canonical option dictionaries, and reviewed English knowledge entries are in progress.
+**Current substep:** M2.1 reconciliation, M2.2 typed runtime catalogue contracts, and M2.3a Product Workflow/five-category mapping are complete. M2.3b thirty field definitions and canonical option dictionaries is in progress; M2.3c English knowledge entries and M2.3d integration verification follow.
 
 **M2.2 completion evidence:** Commit `843602f` (`Define M2 runtime catalogue contracts`) is pushed to `origin/main` with local/remote divergence `0 0`. The public boundary defines schema, catalogue, compiler, profile, locale, Workflow, field-group, field, Preset, profile, validation-rule, preview-asset, knowledge-entry, envelope, issue, and repository contracts. The combined unit-test, TypeScript, and production-build check passed before push.
+
+**M2.3a completion evidence:** Commit `1abdad3` (`Add Product workflow field groups`) is pushed to `origin/main` with local/remote divergence `0 0`. The Product Workflow and five approved groups map all 30 canonical field IDs exactly once, preserve the approved group order and initial disclosure state, and keep deferred Workflows out of the runtime catalogue. A fresh post-push `npm run check` passed two test files and four tests, TypeScript checking, and the production build. All five browser cases passed in Edge; the configured stable-Chrome lane was unavailable because Chrome is not installed in the inspected environment.
 
 **Deliverables**
 
