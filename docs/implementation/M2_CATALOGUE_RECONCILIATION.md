@@ -1,8 +1,8 @@
 # M2 Catalogue Reconciliation Register
 
-**Status:** Active · **Register version:** 1.3 · **Date:** 14 October 2026
+**Status:** Active · **Register version:** 1.3 · **Date:** 15 October 2026
 **Milestone:** M2 — Runtime catalogue and executable-test inputs  
-**Current result:** M2.1 through M2.3c complete; M2.3d integration and coverage verification next
+**Current result:** M2.1 through M2.3d complete; M2.4 Presets, profiles, neutral profile, and preview mapping next
 
 ## 1. Purpose and authority
 
@@ -113,7 +113,7 @@
 | M2.3a | Product Workflow and five-category field mapping | **Complete** | Commit `1abdad3` is pushed; all 30 canonical field IDs occur exactly once across five ordered groups, and Product is the only available Workflow. |
 | M2.3b | Thirty field definitions and canonical option dictionaries | **Complete** | Commit `2b18c04` is pushed; every field occurs once, and all 30 field-keyed dictionary entries and 108 canonical options preserve their source IDs, stored values, and labels. |
 | M2.3c | Thirty reviewed English knowledge entries | **Complete** | Every field has one faithful English knowledge entry; all accepted source literals remain exact; the combined check and independent 30-entry source audit pass. |
-| M2.3d | M2.3 integration and coverage verification | Not Started | Field, option, group, and knowledge references resolve; CAT-01, CAT-03, and CAT-05 evidence passes. |
+| M2.3d | M2.3 integration and coverage verification | **Complete** | Public-boundary graph checks prove all group, field, option, and knowledge references resolve; the focused integration test and combined 5-file/16-test check pass with TypeScript and a production build, providing CAT-01, CAT-03, and catalogue-level CAT-05 evidence. |
 | M2.4 | Ten Presets, ten researched profiles, neutral profile, and preview map | Not Started | Preset/profile/default/preview relationships are explicit and valid. |
 | M2.5 | Catalogue guards and `check:catalogue` command | Not Started | Valid catalogue exits zero; required deliberately broken fixtures exit nonzero. |
 | M2.6 | Register all 372 fixtures plus golden and invalid datasets | Not Started | Every fixture has concrete input, independent oracle, owning case, and execution disposition. |
@@ -125,7 +125,7 @@
 
 [Certain] Database implementation remains deferred behind DR-005. Other Workflow fields and rules remain deferred behind OQ-001 and OQ-003. They must not be introduced into the Product runtime catalogue.
 
-## 10. M2.3d handoff
+## 10. M2.4 handoff
 
-[Certain] The next implementation step is M2.3 integration and coverage verification. Verify the combined Product Workflow, five groups, 30 fields, 30 option-dictionary keys, 108 options, and 30 English knowledge entries through their public catalogue exports. Prove that every group field reference and field knowledge reference resolves, every canonical field appears exactly once, and CAT-01, CAT-03, and CAT-05 obligations remain covered. Do not introduce Presets, profiles, preview mappings, validation execution, fixtures, or a placeholder `check:catalogue` command in M2.3d.
+[Certain] The next implementation step is M2.4: implement the ten approved Presets, ten researched profiles, separate neutral profile, and explicit preview mapping through the established public catalogue contracts. Reconcile archival research metadata against the current baseline before authoring runtime data. Do not introduce validation execution, fixture ports, or a placeholder `check:catalogue` command in M2.4.
 

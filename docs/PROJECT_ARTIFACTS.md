@@ -2,7 +2,7 @@
 
 **Organization date:** 2026-10-11  
 **Organization standard:** `docs-writer` v3 with Ponytail simplicity review  
-**Package status:** Active DOC-01–05 baseline and accepted Stage 6 v1.4 references; DOC-06 v1.0 is the test authority; pushed M1 baseline `468e7fe` and M2.3b catalogue checkpoint `2b18c04` are verified, M2.3c English knowledge entries pass pre-commit verification, and M2.3d integration verification is next; all eight current Word files share the documented formatting baseline
+**Package status:** Active DOC-01–05 baseline and accepted Stage 6 v1.4 references; DOC-06 v1.0 is the test authority; pushed M1 baseline `468e7fe` and M2.3c catalogue checkpoint `3d683a1` are verified, M2.3d passes pre-commit integration and combined verification, and M2.4 is next; all eight current Word files share the documented formatting baseline
 
 ## 1. Structure used
 
@@ -65,8 +65,8 @@ Each document category keeps its current baseline in the category folder and old
 | Frontend Architecture and Architectural Decision Records | DOCX | v1.9 | Current baseline | `02_Architecture/Frontend_Architecture/VisualPrompt_Studio_DOC-04_Frontend_Architecture_and_ADRs_v1.9.docx` | Adds contextual-help routing, pure reset-diff seams and selected-state tokens without a new runtime dependency. |
 | UX and Interaction Specification | DOCX | v1.5 | Current baseline | `04_Frontend_Design/UX_and_Interaction/VisualPrompt_Studio_DOC-05_UX_and_Interaction_Specification_v1.5.docx` | Specifies compact Learn, exact-field full articles, Reset to Preset confirmation and selected icon behavior. |
 | Test, Release and Maintenance Plan | DOCX | v1.0 | Current test authority; M1 scaffold instances passed, remaining cases Not Run | `06_Testing/Test_Plans/VisualPrompt_Studio_DOC-06_Test_Release_and_Maintenance_Plan_v1.0.docx` | Defines 83 planned cases across eight groups, maps all 111 FR and 12 NFR IDs, and specifies release gates, rollback, maintenance and the deferred Database phase. |
-| Product MVP Implementation Plan | Markdown | v1.5 | Active; M1 and M2.1–M2.3c Complete, M2.3d Next | `IMPLEMENTATION_PLAN.md` | Defines the reconciled implementation contracts, seven ordered milestones, acceptance checks, DOC-06 mappings, current evidence, and deferred scope. |
-| M2 Catalogue Reconciliation Register | Markdown | v1.3 | Active; M2.1–M2.3c Complete, M2.3d Next | `implementation/M2_CATALOGUE_RECONCILIATION.md` | Separates archival DISC-01 metadata from the approved runtime baseline and records the fixed field, Preset, profile, preview, fixture, and deferred-scope decisions for M2. |
+| Product MVP Implementation Plan | Markdown | v1.5 | Active; M1 and M2.1–M2.3d Complete, M2.4 Next | `IMPLEMENTATION_PLAN.md` | Defines the reconciled implementation contracts, seven ordered milestones, acceptance checks, DOC-06 mappings, current evidence, and deferred scope. |
+| M2 Catalogue Reconciliation Register | Markdown | v1.3 | Active; M2.1–M2.3d Complete, M2.4 Next | `implementation/M2_CATALOGUE_RECONCILIATION.md` | Separates archival DISC-01 metadata from the approved runtime baseline and records the fixed field, Preset, profile, preview, fixture, and deferred-scope decisions for M2. |
 
 ## 2.1 DISC-01 research package
 

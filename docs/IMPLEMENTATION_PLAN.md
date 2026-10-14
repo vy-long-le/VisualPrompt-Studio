@@ -135,10 +135,10 @@ Every milestone starts from the accepted result of its dependencies. Case IDs be
 
 ### M2 — Runtime catalogue and executable-test inputs
 
-**Status:** In Progress — 14 October 2026
+**Status:** In Progress — 15 October 2026
 **Dependency:** M1.
 
-**Current substep:** M2.1 reconciliation through M2.3c English knowledge entries are complete. M2.3d integration and coverage verification is next.
+**Current substep:** M2.1 reconciliation through M2.3d integration and coverage verification are complete. M2.4 Presets, profiles, neutral profile, and preview mapping is next.
 
 **M2.2 completion evidence:** Commit `843602f` (`Define M2 runtime catalogue contracts`) is pushed to `origin/main` with local/remote divergence `0 0`. The public boundary defines schema, catalogue, compiler, profile, locale, Workflow, field-group, field, Preset, profile, validation-rule, preview-asset, knowledge-entry, envelope, issue, and repository contracts. The combined unit-test, TypeScript, and production-build check passed before push.
 
@@ -147,6 +147,8 @@ Every milestone starts from the accepted result of its dependencies. Case IDs be
 **M2.3b completion evidence:** Commit `2b18c04` (`Add Product field catalogue and options`) is pushed to `origin/main` with local/remote divergence `0 0`. The runtime catalogue contains all 30 canonical field definitions and 30 field-keyed option dictionaries with all 108 unique option IDs, stored values, labels, field constraints, normalization modes, knowledge references, and validation-rule references reconciled against DISC-01. The combined unit-test, TypeScript, and production-build check passed three test files and ten tests; the independent exact-source audit and all five Edge browser cases passed.
 
 **M2.3c completion evidence:** The runtime catalogue publishes one complete English knowledge entry for each of the 30 canonical Product fields. All field-to-entry IDs resolve; accepted DISC-01 examples, related terms, wording patterns, validation boundaries, and starter suggestions remain exact; and editorial review found no added generation guarantee or changed validation behavior. A fresh `npm run check` passed four test files and fourteen tests, TypeScript checking, and the production build. An independent exact-source audit passed all 30 entries.
+
+**M2.3d completion evidence:** The public catalogue boundary now has an integration test that traverses the Product Workflow, five groups, 30 fields, 30 option-dictionary keys, 108 unique options, and 30 English knowledge entries as one reference graph. Every group and field belongs to the Product Workflow; every canonical field occurs in exactly one group; every field reuses its canonical option array; every field-to-knowledge link resolves and points back to the matching field; no knowledge entry is orphaned; and option IDs remain globally unique. The focused integration run passed one test file and two tests. A fresh `npm run check` then passed five test files and sixteen tests, strict TypeScript checking, and a production build, providing the planned CAT-01, CAT-03, and catalogue-level CAT-05 evidence.
 
 **Deliverables**
 
