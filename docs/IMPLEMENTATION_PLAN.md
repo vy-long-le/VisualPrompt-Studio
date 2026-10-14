@@ -1,6 +1,6 @@
 # VisualPrompt Studio Product MVP — Implementation Plan
 
-**Status:** Active · **Plan version:** 1.4 · **Date:** 13 October 2026
+**Status:** Active · **Plan version:** 1.5 · **Date:** 14 October 2026
 **Implementation status:** M1 Complete; M2 In Progress  
 **Application test status:** M1 type checking, unit tests, production build, and five Edge browser checks passed; mandatory Chrome evidence remains for M7  
 **Canonical document:** `docs/IMPLEMENTATION_PLAN.md`
@@ -135,14 +135,18 @@ Every milestone starts from the accepted result of its dependencies. Case IDs be
 
 ### M2 — Runtime catalogue and executable-test inputs
 
-**Status:** In Progress — 13 October 2026  
+**Status:** In Progress — 14 October 2026
 **Dependency:** M1.
 
-**Current substep:** M2.1 reconciliation, M2.2 typed runtime catalogue contracts, and M2.3a Product Workflow/five-category mapping are complete. M2.3b thirty field definitions and canonical option dictionaries is in progress; M2.3c English knowledge entries and M2.3d integration verification follow.
+**Current substep:** M2.1 reconciliation through M2.3c English knowledge entries are complete. M2.3d integration and coverage verification is next.
 
 **M2.2 completion evidence:** Commit `843602f` (`Define M2 runtime catalogue contracts`) is pushed to `origin/main` with local/remote divergence `0 0`. The public boundary defines schema, catalogue, compiler, profile, locale, Workflow, field-group, field, Preset, profile, validation-rule, preview-asset, knowledge-entry, envelope, issue, and repository contracts. The combined unit-test, TypeScript, and production-build check passed before push.
 
 **M2.3a completion evidence:** Commit `1abdad3` (`Add Product workflow field groups`) is pushed to `origin/main` with local/remote divergence `0 0`. The Product Workflow and five approved groups map all 30 canonical field IDs exactly once, preserve the approved group order and initial disclosure state, and keep deferred Workflows out of the runtime catalogue. A fresh post-push `npm run check` passed two test files and four tests, TypeScript checking, and the production build. All five browser cases passed in Edge; the configured stable-Chrome lane was unavailable because Chrome is not installed in the inspected environment.
+
+**M2.3b completion evidence:** Commit `2b18c04` (`Add Product field catalogue and options`) is pushed to `origin/main` with local/remote divergence `0 0`. The runtime catalogue contains all 30 canonical field definitions and 30 field-keyed option dictionaries with all 108 unique option IDs, stored values, labels, field constraints, normalization modes, knowledge references, and validation-rule references reconciled against DISC-01. The combined unit-test, TypeScript, and production-build check passed three test files and ten tests; the independent exact-source audit and all five Edge browser cases passed.
+
+**M2.3c completion evidence:** The runtime catalogue publishes one complete English knowledge entry for each of the 30 canonical Product fields. All field-to-entry IDs resolve; accepted DISC-01 examples, related terms, wording patterns, validation boundaries, and starter suggestions remain exact; and editorial review found no added generation guarantee or changed validation behavior. A fresh `npm run check` passed four test files and fourteen tests, TypeScript checking, and the production build. An independent exact-source audit passed all 30 entries.
 
 **Deliverables**
 
