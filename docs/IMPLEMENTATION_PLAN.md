@@ -1,6 +1,6 @@
 # VisualPrompt Studio Product MVP — Implementation Plan
 
-**Status:** Active · **Plan version:** 1.5 · **Date:** 14 October 2026
+**Status:** Active · **Plan version:** 1.6 · **Date:** 15 October 2026
 **Implementation status:** M1 Complete; M2 In Progress  
 **Application test status:** M1 type checking, unit tests, production build, and five Edge browser checks passed; mandatory Chrome evidence remains for M7  
 **Canonical document:** `docs/IMPLEMENTATION_PLAN.md`
@@ -138,7 +138,7 @@ Every milestone starts from the accepted result of its dependencies. Case IDs be
 **Status:** In Progress — 15 October 2026
 **Dependency:** M1.
 
-**Current substep:** M2.1 reconciliation through M2.4a Preset and Start Blank definitions are complete. M2.4b researched template profiles is next.
+**Current substep:** M2.1 reconciliation through M2.4b researched template profiles are complete. M2.4c separate neutral profile is next.
 
 **M2.2 completion evidence:** Commit `843602f` (`Define M2 runtime catalogue contracts`) is pushed to `origin/main` with local/remote divergence `0 0`. The public boundary defines schema, catalogue, compiler, profile, locale, Workflow, field-group, field, Preset, profile, validation-rule, preview-asset, knowledge-entry, envelope, issue, and repository contracts. The combined unit-test, TypeScript, and production-build check passed before push.
 
@@ -151,6 +151,8 @@ Every milestone starts from the accepted result of its dependencies. Case IDs be
 **M2.3d completion evidence:** The public catalogue boundary now has an integration test that traverses the Product Workflow, five groups, 30 fields, 30 option-dictionary keys, 108 unique options, and 30 English knowledge entries as one reference graph. Every group and field belongs to the Product Workflow; every canonical field occurs in exactly one group; every field reuses its canonical option array; every field-to-knowledge link resolves and points back to the matching field; no knowledge entry is orphaned; and option IDs remain globally unique. The focused integration run passed one test file and two tests. A fresh `npm run check` then passed five test files and sixteen tests, strict TypeScript checking, and a production build, providing the planned CAT-01, CAT-03, and catalogue-level CAT-05 evidence.
 
 **M2.4a completion evidence:** The public catalogue boundary publishes all ten canonical Product Presets and keeps Start Blank as a separate neutral entry. Every Preset preserves its accepted DISC-01 identity, family, purpose, creative direction, use cases, default visual characteristics, distinctive instructions, exclusions, rule references, complete 30-field default map, and explicit template-profile identity. The reconciled preview mapping is explicit for all ten Presets: three approved asset IDs and seven labelled-fallback `null` mappings. Start Blank has all 30 canonical fields set to empty strings and uses `product-neutral-mold` without becoming an eleventh Preset. A fresh `npm run check` passed six test files and nineteen tests, strict TypeScript checking, and a production build. An independent source-fidelity audit passed all ten Presets, all ten profile links, all ten preview mappings, and the complete Start Blank map.
+
+**M2.4b completion evidence:** The public catalogue boundary publishes ten researched Product template profiles and no neutral profile in the researched-profile collection. Every profile preserves its explicit profile and source-Preset identity, workflow and profile versions, creative metadata, ordered sections, ordered clauses, nonblank conditions, exact-copy variants, supplied-fact safeguard, omission behavior, override rule, and negative-instruction strategy. The focused profile test passed one file and four tests. A fresh `npm run check` passed seven test files and twenty-three tests, strict TypeScript checking, and a production build. An independent runtime comparison against the accepted DISC-01 JSON matched all ten profiles, fifty sections, three hundred clauses, and twenty copy-policy variants exactly.
 
 **Deliverables**
 
