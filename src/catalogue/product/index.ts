@@ -6,4 +6,5 @@ export { PRODUCT_PREVIEW_ASSETS, PRODUCT_PREVIEW_FALLBACK } from "./previews";
 export { PRODUCT_NEUTRAL_TEMPLATE_PROFILE } from "./profiles";
 export { PRODUCT_RESEARCHED_TEMPLATE_PROFILES } from "./profiles";
 export { PRODUCT_PRESETS, PRODUCT_START_BLANK } from "./presets";
+export { PRODUCT_VALIDATION_RULES } from "./rules";
 export { PRODUCT_WORKFLOW } from "./workflow";
