@@ -1,4 +1,4 @@
-import { PRODUCT_WORKFLOW_ID } from "../ids";
+import { PRODUCT_NEUTRAL_PROFILE_ID, PRODUCT_WORKFLOW_ID } from "../ids";
 import type { ProductFieldId } from "../ids";
 import type {
   ProductTemplateClause,
@@ -1185,3 +1185,107 @@ export const PRODUCT_RESEARCHED_TEMPLATE_PROFILES = [
     negativeInstructionStrategy: NEGATIVE_INSTRUCTION_STRATEGY,
   },
 ] as const satisfies readonly ProductTemplateProfileDefinition[];
+
+export const PRODUCT_NEUTRAL_TEMPLATE_PROFILE = {
+  id: PRODUCT_NEUTRAL_PROFILE_ID,
+  sourcePresetId: null,
+  workflowId: PRODUCT_WORKFLOW_ID,
+  profileVersion: PRODUCT_PROFILE_VERSION,
+  name: "Start Blank",
+  creativeObjective:
+    "Compile only the Product direction explicitly supplied by the user.",
+  instructionHierarchy:
+    "Preserve supplied product facts, then emit nonblank fields in canonical category and field order without adding Preset art direction.",
+  sections: [
+    createSection("Product identity", [
+      createClause("product-description", "Depict {product-description}."),
+      createClause("reference-mode", "Reference handling: {reference-mode}."),
+      createClause(
+        "reference-notes",
+        "Reference roles and scope: {reference-notes}.",
+      ),
+      createClause(
+        "preserve-details",
+        "Keep these supplied details unchanged: {preserve-details}.",
+      ),
+      createClause("use-case", "Output use: {use-case}."),
+      createClause(
+        "creative-objective",
+        "Creative objective: {creative-objective}.",
+      ),
+      createClause("audience", "Intended viewer context: {audience}."),
+    ]),
+    createSection("Lighting and composition", [
+      createClause(
+        "lighting-style",
+        "Light quality and setup: {lighting-style}.",
+      ),
+      createClause(
+        "light-direction",
+        "Primary light direction: {light-direction}.",
+      ),
+      createClause("shadow-treatment", "Shadow rendering: {shadow-treatment}."),
+      createClause("composition", "Spatial composition: {composition}."),
+    ]),
+    createSection("Camera and optics", [
+      createClause("shot-size", "Selected framing: {shot-size}."),
+      createClause("camera-angle", "Viewpoint: {camera-angle}."),
+      createClause("focus-treatment", "Focus intent: {focus-treatment}."),
+      createClause(
+        "detail-target",
+        "Supplied feature to inspect within the selected framing: {detail-target}.",
+      ),
+      createClause(
+        "scale-cue",
+        "Relative size context, without adding unverified measurements: {scale-cue}.",
+      ),
+    ]),
+    createSection("Materials and styling", [
+      createClause(
+        "placement-surface",
+        "Product placement: {placement-surface}.",
+      ),
+      createClause("environment", "Surrounding scene: {environment}."),
+      createClause("props", "Supporting props and their roles: {props}."),
+      createClause(
+        "product-arrangement",
+        "Product arrangement: {product-arrangement}.",
+      ),
+      createClause(
+        "material-emphasis",
+        "Emphasize existing surface features: {material-emphasis}.",
+      ),
+      createClause(
+        "palette",
+        "Apply this palette to the scene, while retaining supplied product colors: {palette}.",
+      ),
+      createClause("mood", "Visual mood: {mood}."),
+      createClause("visual-treatment", "Image treatment: {visual-treatment}."),
+      createClause(
+        "interaction-action",
+        "Interaction or frozen action: {interaction-action}.",
+      ),
+    ]),
+    createSection("Output and guardrails", [
+      createClause("copy-treatment", "Added copy policy: {copy-treatment}."),
+      createClause(
+        "copy-space",
+        "Layout breathing room or copy region: {copy-space}.",
+      ),
+      createClause(
+        "exact-copy",
+        "Approved copy: {exact-copy}",
+        COPY_HANDLING_VARIANTS,
+      ),
+      createClause(
+        "aspect-ratio",
+        "Compose for width:height ratio {aspect-ratio}; set the matching output control in the external generator.",
+      ),
+      createClause("exclusions", "Additional constraints: {exclusions}."),
+    ]),
+  ],
+  suppliedFactSafeguard: SUPPLIED_FACT_SAFEGUARD,
+  omissionBehavior: OMISSION_BEHAVIOR,
+  userOverrideRule: USER_OVERRIDE_RULE,
+  negativeInstructionStrategy: NEGATIVE_INSTRUCTION_STRATEGY,
+} as const satisfies ProductTemplateProfileDefinition;

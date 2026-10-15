@@ -1,8 +1,8 @@
 # M2 Catalogue Reconciliation Register
 
-**Status:** Active · **Register version:** 1.4 · **Date:** 15 October 2026
+**Status:** Active · **Register version:** 1.5 · **Date:** 15 October 2026
 **Milestone:** M2 — Runtime catalogue and executable-test inputs  
-**Current result:** M2.1 through M2.4b complete; M2.4c separate neutral profile next
+**Current result:** M2.1 through M2.4c complete; M2.4d runtime preview asset and fallback catalogue next
 
 ## 1. Purpose and authority
 
@@ -116,6 +116,7 @@
 | M2.3d | M2.3 integration and coverage verification | **Complete** | Public-boundary graph checks prove all group, field, option, and knowledge references resolve; the focused integration test and combined 5-file/16-test check pass with TypeScript and a production build, providing CAT-01, CAT-03, and catalogue-level CAT-05 evidence. |
 | M2.4a | Ten Product Presets and separate Start Blank definition | **Complete** | All ten Presets preserve the accepted DISC-01 metadata and complete defaults, expose explicit profile and preview identities, and keep Start Blank separate with 30 empty fields and `product-neutral-mold`; the combined 6-file/19-test check, TypeScript check, production build, and independent source audit pass. |
 | M2.4b | Ten immutable researched Product template profiles | **Complete** | All ten researched profiles preserve their explicit identities, versions, metadata, ordered sections and clauses, conditions, exact-copy variants, and policy literals; the focused 4-test run, combined 7-file/23-test check, TypeScript check, production build, and independent exact-source audit of 10 profiles, 50 sections, 300 clauses, and 20 variants pass. |
+| M2.4c | Separate Start Blank neutral template profile | **Complete** | The public catalogue publishes one `product-neutral-mold` profile linked to Start Blank, with null Preset provenance, no Preset defaults, no researched-profile membership, five canonical sections, 30 ordered generic clauses, and two approved copy variants; the focused 4-test run, combined 8-file/27-test check, TypeScript check, production build, and independent runtime audit pass. |
 | M2.4 | Ten Presets, ten researched profiles, neutral profile, and preview map | **In Progress** | Preset/profile/default/preview relationships are explicit and valid. |
 | M2.5 | Catalogue guards and `check:catalogue` command | Not Started | Valid catalogue exits zero; required deliberately broken fixtures exit nonzero. |
 | M2.6 | Register all 372 fixtures plus golden and invalid datasets | Not Started | Every fixture has concrete input, independent oracle, owning case, and execution disposition. |
@@ -129,5 +130,5 @@
 
 ## 10. M2.4 handoff
 
-[Certain] M2.4a publishes the ten approved Presets and separate Start Blank definition, and M2.4b publishes the ten immutable researched template profiles through the established public catalogue contracts. The next implementation step is M2.4c: add the separately approved `product-neutral-mold` profile for Start Blank without including it in the researched-profile collection or treating it as an eleventh Preset. Preserve the generic ordered clauses, exact-copy variants, optional omission, supplied-fact safeguard, explicit `1.0.0` identity, and existing Start Blank link. Do not introduce validation execution, fixture ports, or a placeholder `check:catalogue` command in M2.4.
+[Certain] M2.4a publishes the ten approved Presets and separate Start Blank definition, M2.4b publishes the ten immutable researched template profiles, and M2.4c publishes the separately approved `product-neutral-mold` profile linked to Start Blank through the established public catalogue contracts. The next implementation step is M2.4d: publish the runtime preview asset registry and labelled-fallback definition. Preserve all six accepted preview assets and their provenance, retain the three explicit Preset-to-asset mappings already recorded by M2.4a, keep the other seven Presets on the approved fallback, and do not infer mappings from filenames. Do not introduce validation execution, fixture ports, or a placeholder `check:catalogue` command in M2.4.
 
