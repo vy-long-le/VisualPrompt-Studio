@@ -1,8 +1,8 @@
 # M2 Catalogue Reconciliation Register
 
-**Status:** Active · **Register version:** 1.5 · **Date:** 15 October 2026
+**Status:** Active · **Register version:** 1.6 · **Date:** 15 October 2026
 **Milestone:** M2 — Runtime catalogue and executable-test inputs  
-**Current result:** M2.1 through M2.4c complete; M2.4d runtime preview asset and fallback catalogue next
+**Current result:** M2.1 through M2.4 complete; M2.5 catalogue guards and `check:catalogue` command next
 
 ## 1. Purpose and authority
 
@@ -117,7 +117,8 @@
 | M2.4a | Ten Product Presets and separate Start Blank definition | **Complete** | All ten Presets preserve the accepted DISC-01 metadata and complete defaults, expose explicit profile and preview identities, and keep Start Blank separate with 30 empty fields and `product-neutral-mold`; the combined 6-file/19-test check, TypeScript check, production build, and independent source audit pass. |
 | M2.4b | Ten immutable researched Product template profiles | **Complete** | All ten researched profiles preserve their explicit identities, versions, metadata, ordered sections and clauses, conditions, exact-copy variants, and policy literals; the focused 4-test run, combined 7-file/23-test check, TypeScript check, production build, and independent exact-source audit of 10 profiles, 50 sections, 300 clauses, and 20 variants pass. |
 | M2.4c | Separate Start Blank neutral template profile | **Complete** | The public catalogue publishes one `product-neutral-mold` profile linked to Start Blank, with null Preset provenance, no Preset defaults, no researched-profile membership, five canonical sections, 30 ordered generic clauses, and two approved copy variants; the focused 4-test run, combined 8-file/27-test check, TypeScript check, production build, and independent runtime audit pass. |
-| M2.4 | Ten Presets, ten researched profiles, neutral profile, and preview map | **In Progress** | Preset/profile/default/preview relationships are explicit and valid. |
+| M2.4d | Six preview assets, three explicit mappings, and labelled fallback | **Complete** | All six accepted assets preserve stable paths, accessible descriptions, exact creative intents, non-guarantee wording, and direct-generation provenance; three mappings resolve, seven Presets use the fallback, three other assets remain unmapped, source/public/production hashes match, and the focused 4-test and combined 9-file/31-test checks pass. |
+| M2.4 | Ten Presets, ten researched profiles, neutral profile, and preview map | **Complete** | Preset/profile/default/preview relationships are explicit and valid; the existing profile, neutral-profile, and preview suites traverse every cross-reference, so no additional integration substep is required. |
 | M2.5 | Catalogue guards and `check:catalogue` command | Not Started | Valid catalogue exits zero; required deliberately broken fixtures exit nonzero. |
 | M2.6 | Register all 372 fixtures plus golden and invalid datasets | Not Started | Every fixture has concrete input, independent oracle, owning case, and execution disposition. |
 | M2.7 | M2 acceptance and evidence update | Not Started | `CAT-01–08` obligations have implementation evidence; `CMP-09` inputs are prepared without claiming compiler execution. |
@@ -128,7 +129,7 @@
 
 [Certain] Database implementation remains deferred behind DR-005. Other Workflow fields and rules remain deferred behind OQ-001 and OQ-003. They must not be introduced into the Product runtime catalogue.
 
-## 10. M2.4 handoff
+## 10. M2.5 handoff
 
-[Certain] M2.4a publishes the ten approved Presets and separate Start Blank definition, M2.4b publishes the ten immutable researched template profiles, and M2.4c publishes the separately approved `product-neutral-mold` profile linked to Start Blank through the established public catalogue contracts. The next implementation step is M2.4d: publish the runtime preview asset registry and labelled-fallback definition. Preserve all six accepted preview assets and their provenance, retain the three explicit Preset-to-asset mappings already recorded by M2.4a, keep the other seven Presets on the approved fallback, and do not infer mappings from filenames. Do not introduce validation execution, fixture ports, or a placeholder `check:catalogue` command in M2.4.
+[Certain] M2.4 now publishes and cross-checks the ten approved Presets, ten researched profiles, separate `product-neutral-mold`, six preview assets, three explicit preview mappings, and labelled fallback through the public catalogue boundary. The next implementation step is M2.5: build the catalogue guard that returns concrete issues for duplicate IDs, missing references, invalid defaults, broken clauses, and incomplete coverage, then expose a real `check:catalogue` command whose exit status reflects those issues. Use deliberately broken fixture copies to prove each failure class without mutating the accepted catalogue. Do not import archival research `actual` or `result` values as production evidence.
 

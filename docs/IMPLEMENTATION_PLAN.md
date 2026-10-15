@@ -1,6 +1,6 @@
 # VisualPrompt Studio Product MVP — Implementation Plan
 
-**Status:** Active · **Plan version:** 1.7 · **Date:** 15 October 2026
+**Status:** Active · **Plan version:** 1.8 · **Date:** 15 October 2026
 **Implementation status:** M1 Complete; M2 In Progress  
 **Application test status:** M1 type checking, unit tests, production build, and five Edge browser checks passed; mandatory Chrome evidence remains for M7  
 **Canonical document:** `docs/IMPLEMENTATION_PLAN.md`
@@ -138,7 +138,7 @@ Every milestone starts from the accepted result of its dependencies. Case IDs be
 **Status:** In Progress — 15 October 2026
 **Dependency:** M1.
 
-**Current substep:** M2.1 through M2.4c are complete, including the separate Start Blank neutral profile. M2.4d runtime preview asset and fallback catalogue is next.
+**Current substep:** M2.1 through M2.4 are complete, including Presets, researched and neutral profiles, and the runtime preview catalogue. M2.5 catalogue guards and the real `check:catalogue` command are next.
 
 **M2.2 completion evidence:** Commit `843602f` (`Define M2 runtime catalogue contracts`) is pushed to `origin/main` with local/remote divergence `0 0`. The public boundary defines schema, catalogue, compiler, profile, locale, Workflow, field-group, field, Preset, profile, validation-rule, preview-asset, knowledge-entry, envelope, issue, and repository contracts. The combined unit-test, TypeScript, and production-build check passed before push.
 
@@ -155,6 +155,8 @@ Every milestone starts from the accepted result of its dependencies. Case IDs be
 **M2.4b completion evidence:** The public catalogue boundary publishes ten researched Product template profiles and no neutral profile in the researched-profile collection. Every profile preserves its explicit profile and source-Preset identity, workflow and profile versions, creative metadata, ordered sections, ordered clauses, nonblank conditions, exact-copy variants, supplied-fact safeguard, omission behavior, override rule, and negative-instruction strategy. The focused profile test passed one file and four tests. A fresh `npm run check` passed seven test files and twenty-three tests, strict TypeScript checking, and a production build. An independent runtime comparison against the accepted DISC-01 JSON matched all ten profiles, fifty sections, three hundred clauses, and twenty copy-policy variants exactly.
 
 **M2.4c completion evidence:** The public catalogue boundary publishes one separate `product-neutral-mold` profile linked to Start Blank, with `sourcePresetId: null`, no Preset defaults, and no membership in the researched-profile collection. The profile preserves the five canonical Product sections, all thirty fields in canonical order, generic nonblank clauses, optional omission behavior, the approved supplied-fact safeguard and policies, and two approved copy variants. The focused neutral-profile test passed one file and four tests. A fresh `npm run check` passed eight test files and twenty-seven tests, strict TypeScript checking, and a production build. An independent runtime audit confirmed five sections, thirty clauses, thirty unique fields, two copy variants, the Start Blank link, and null Preset provenance.
+
+**M2.4d and M2.4 completion evidence:** The public catalogue boundary publishes all six accepted preview assets with canonical IDs, stable application paths, accessible descriptions, exact creative intents, non-guarantee wording, and explicit direct-generation provenance with no compiler trace. Three approved Presets resolve to their explicit preview assets; the other seven use the labelled fallback; and the three remaining research assets stay preserved without invented Preset mappings. All six public PNG files match their accepted documentation sources byte for byte and are copied unchanged into the fresh production build. The focused preview suite passed one file and four tests. A fresh `npm run check` passed nine test files and thirty-one tests, strict TypeScript checking, and a production build. Existing profile and neutral-profile reference checks plus the preview reference checks close the complete M2.4 Preset/profile/default/preview graph, so no separate M2.4 integration substep is required.
 
 **Deliverables**
 
