@@ -2,7 +2,7 @@
 
 **Status:** Active · **Register version:** 1.3 · **Date:** 15 October 2026
 **Milestone:** M2 — Runtime catalogue and executable-test inputs  
-**Current result:** M2.1 through M2.3d complete; M2.4 Presets, profiles, neutral profile, and preview mapping next
+**Current result:** M2.1 through M2.4a complete; M2.4b researched template profiles next
 
 ## 1. Purpose and authority
 
@@ -114,7 +114,8 @@
 | M2.3b | Thirty field definitions and canonical option dictionaries | **Complete** | Commit `2b18c04` is pushed; every field occurs once, and all 30 field-keyed dictionary entries and 108 canonical options preserve their source IDs, stored values, and labels. |
 | M2.3c | Thirty reviewed English knowledge entries | **Complete** | Every field has one faithful English knowledge entry; all accepted source literals remain exact; the combined check and independent 30-entry source audit pass. |
 | M2.3d | M2.3 integration and coverage verification | **Complete** | Public-boundary graph checks prove all group, field, option, and knowledge references resolve; the focused integration test and combined 5-file/16-test check pass with TypeScript and a production build, providing CAT-01, CAT-03, and catalogue-level CAT-05 evidence. |
-| M2.4 | Ten Presets, ten researched profiles, neutral profile, and preview map | Not Started | Preset/profile/default/preview relationships are explicit and valid. |
+| M2.4a | Ten Product Presets and separate Start Blank definition | **Complete** | All ten Presets preserve the accepted DISC-01 metadata and complete defaults, expose explicit profile and preview identities, and keep Start Blank separate with 30 empty fields and `product-neutral-mold`; the combined 6-file/19-test check, TypeScript check, production build, and independent source audit pass. |
+| M2.4 | Ten Presets, ten researched profiles, neutral profile, and preview map | **In Progress** | Preset/profile/default/preview relationships are explicit and valid. |
 | M2.5 | Catalogue guards and `check:catalogue` command | Not Started | Valid catalogue exits zero; required deliberately broken fixtures exit nonzero. |
 | M2.6 | Register all 372 fixtures plus golden and invalid datasets | Not Started | Every fixture has concrete input, independent oracle, owning case, and execution disposition. |
 | M2.7 | M2 acceptance and evidence update | Not Started | `CAT-01–08` obligations have implementation evidence; `CMP-09` inputs are prepared without claiming compiler execution. |
@@ -127,5 +128,5 @@
 
 ## 10. M2.4 handoff
 
-[Certain] The next implementation step is M2.4: implement the ten approved Presets, ten researched profiles, separate neutral profile, and explicit preview mapping through the established public catalogue contracts. Reconcile archival research metadata against the current baseline before authoring runtime data. Do not introduce validation execution, fixture ports, or a placeholder `check:catalogue` command in M2.4.
+[Certain] M2.4a publishes the ten approved Presets and separate Start Blank definition through the established public catalogue contracts. The next implementation step is M2.4b: implement the ten immutable researched template profiles, preserving the accepted profile IDs, version `1.0.0`, clause order, conditions, copy policies, and exact literals. The separate neutral profile remains later M2.4 work. Do not introduce validation execution, fixture ports, or a placeholder `check:catalogue` command in M2.4.
 
