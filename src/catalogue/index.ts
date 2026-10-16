@@ -1,4 +1,5 @@
 export { PRODUCT_CATALOGUE } from "./catalogue";
+export { validateProductCatalogue } from "./guard";
 
 export {
   PRODUCT_FIELD_GROUP_IDS,
