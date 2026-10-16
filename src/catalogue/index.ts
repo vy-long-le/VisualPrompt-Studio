@@ -1,3 +1,5 @@
+export { PRODUCT_CATALOGUE } from "./catalogue";
+
 export {
   PRODUCT_FIELD_GROUP_IDS,
   PRODUCT_FIELD_IDS,
