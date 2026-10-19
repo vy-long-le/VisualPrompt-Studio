@@ -4,8 +4,15 @@ import { PRODUCT_CATALOGUE } from "../../../src/catalogue";
 import type {
   ProductCatalogueEnvelope,
   ProductCatalogueIssue,
-  ProductValidationPredicate,
 } from "../../../src/catalogue";
+import {
+  withBrokenProfileClause,
+  withDuplicatePreset,
+  withIncompleteWorkflowCoverage,
+  withInvalidPresetDefault,
+  withMissingBlankPredicateField,
+  withoutReferencedPreviewAsset,
+} from "../../fixtures/product-catalogue-fixtures";
 
 type ProductCatalogueGuard = (
   envelope: ProductCatalogueEnvelope,
@@ -41,115 +48,6 @@ function validateWithoutMutation(
   expect(PRODUCT_CATALOGUE).toEqual(canonicalBefore);
 
   return issues;
-}
-
-function withDuplicatePreset(
-  envelope: ProductCatalogueEnvelope,
-): ProductCatalogueEnvelope {
-  const duplicatedPreset = envelope.presets[0];
-
-  if (!duplicatedPreset) {
-    throw new Error("Duplicate-ID fixture requires product-p01.");
-  }
-
-  return {
-    ...envelope,
-    presets: [...envelope.presets, duplicatedPreset],
-  };
-}
-
-function withoutReferencedPreviewAsset(
-  envelope: ProductCatalogueEnvelope,
-): ProductCatalogueEnvelope {
-  return {
-    ...envelope,
-    previewAssets: envelope.previewAssets.filter(
-      (asset) => asset.id !== "preset-soft-catalog",
-    ),
-  };
-}
-
-function withInvalidPresetDefault(
-  envelope: ProductCatalogueEnvelope,
-): ProductCatalogueEnvelope {
-  return {
-    ...envelope,
-    presets: envelope.presets.map((preset) =>
-      preset.id === "product-p01"
-        ? {
-            ...preset,
-            defaultsByFieldId: {
-              ...preset.defaultsByFieldId,
-              "aspect-ratio": "not-a-canonical-value",
-            },
-          }
-        : preset,
-    ),
-  };
-}
-
-function withBrokenProfileClause(
-  envelope: ProductCatalogueEnvelope,
-): ProductCatalogueEnvelope {
-  return {
-    ...envelope,
-    templateProfiles: envelope.templateProfiles.map((profile) =>
-      profile.id === "product-p01-mold"
-        ? {
-            ...profile,
-            sections: profile.sections.map((section) => ({
-              ...section,
-              clauses: section.clauses.map((clause) =>
-                clause.fieldId === "product-description"
-                  ? {
-                      ...clause,
-                      condition: {
-                        ...clause.condition,
-                        fieldId: "use-case",
-                      },
-                    }
-                  : clause,
-              ),
-            })),
-          }
-        : profile,
-    ),
-  };
-}
-
-function withIncompleteWorkflowCoverage(
-  envelope: ProductCatalogueEnvelope,
-): ProductCatalogueEnvelope {
-  return {
-    ...envelope,
-    workflows: envelope.workflows.map((workflow) => ({
-      ...workflow,
-      fieldGroups: workflow.fieldGroups.map((group) => ({
-        ...group,
-        fieldIds: group.fieldIds.filter(
-          (fieldId) => fieldId !== "product-description",
-        ),
-      })),
-    })),
-  };
-}
-
-function withMissingBlankPredicateField(
-  envelope: ProductCatalogueEnvelope,
-): ProductCatalogueEnvelope {
-  return {
-    ...envelope,
-    validationRules: envelope.validationRules.map((rule) =>
-      rule.id === "V03"
-        ? {
-            ...rule,
-            trigger: {
-              blank: "missing-field",
-            } as unknown as ProductValidationPredicate,
-          }
-        : rule,
-    ),
-  };
 }
 
 describe("CAT-08 Product catalogue integrity guard", () => {

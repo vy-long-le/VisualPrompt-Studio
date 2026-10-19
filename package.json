@@ -11,15 +11,21 @@
     "test:browser": "npm run build && playwright test",
     "build": "npm run typecheck && vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
-    "check": "npm run test && npm run build"
+    "check:catalogue": "tsx src/scripts/check-catalogue.ts",
+    "check": "npm run check:catalogue && npm run test && npm run build"
   },
   "devDependencies": {
     "@playwright/test": "1.64.0",
+    "@types/node": "24.19.2",
+    "tsx": "4.23.15",
     "typescript": "6.0.3",
     "vite": "8.3.4",
     "vitest": "5.0.3"
   },
   "dependencies": {
     "lucide": "1.55.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
   }
 }
