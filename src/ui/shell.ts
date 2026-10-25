@@ -1,5 +1,6 @@
 import type { Screen, AppState } from "../app/state";
 import { createIcons, House, PencilLine } from "lucide";
+import { mountBuild } from "./build";
 
 export function mountShell(root: HTMLElement, state: AppState): void {
   root.innerHTML = `
@@ -55,9 +56,8 @@ export function mountShell(root: HTMLElement, state: AppState): void {
   function renderScreen(moveFocus: boolean): void {
     if (!content) return;
 
-    content.innerHTML =
-      state.view.screen === "home"
-        ? `
+    if (state.view.screen === "home") {
+      content.innerHTML = `
             <section class="hero">
               <p class="eyebrow">Creative direction, made operational</p>
               <h1 tabindex="-1">Build prompts with a point of view.</h1>
@@ -99,16 +99,10 @@ export function mountShell(root: HTMLElement, state: AppState): void {
                 </article>
               </div>
             </section>
-          `
-        : `
-            <section class="hero">
-              <p class="eyebrow">Product Advertising and Photography</p>
-              <h1 tabindex="-1">Build a prompt</h1>
-              <p class="lead">
-                Your Product configuration form will appear here.
-              </p>
-            </section>
           `;
+    } else {
+      mountBuild(content, state);
+    }
 
     root
       .querySelectorAll<HTMLButtonElement>("nav [data-screen]")

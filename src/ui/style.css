@@ -192,6 +192,126 @@ h1 {
   border-radius: var(--radius-panel);
 }
 
+#prompt-config-output {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+#prompt-config-output > section {
+  min-width: 0;
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+}
+
+#prompt-config-output h2 {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-lead);
+}
+
+#prompt-config-output label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-weight: 600;
+}
+
+#prompt-config-output :is(input, select, textarea) {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding: var(--space-3);
+  color: var(--color-text);
+  background: var(--color-surface-strong);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font: inherit;
+}
+
+#prompt-config-output :is(input, select) {
+  min-height: 44px;
+}
+
+#prompt-config-output textarea {
+  min-height: 7rem;
+  line-height: var(--line-body);
+  resize: vertical;
+}
+
+#product-fields {
+  margin-block: var(--space-5);
+}
+
+#product-fields > details {
+  border-top: 1px solid var(--color-border);
+}
+
+#product-fields summary {
+  padding-block: var(--space-4);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#product-fields > details > div {
+  margin-bottom: var(--space-5);
+}
+
+#product-fields p,
+#prompt-status {
+  margin-block: var(--space-2) var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+  line-height: var(--line-body);
+  overflow-wrap: anywhere;
+}
+
+#prompt-config-output #prompt-output {
+  min-height: 20rem;
+  margin-bottom: var(--space-4);
+}
+
+#prompt-config-output button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+#prompt-config-output #prompt-name {
+  margin-bottom: var(--space-4);
+}
+
+#preset-preview {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+  margin: var(--space-4) 0 var(--space-5);
+  padding: var(--space-3);
+  background: var(--color-surface-strong);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+}
+
+#preset-preview img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 20rem;
+  object-fit: contain;
+  background: var(--color-canvas);
+  border-radius: var(--radius-control);
+}
+
+#preset-preview figcaption {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+  line-height: var(--line-body);
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 1179px) {
   .workflow-grid {
     grid-template-columns: 1fr 1fr;
@@ -228,5 +348,19 @@ h1 {
 
   .card:first-child {
     grid-column: auto;
+  }
+
+  #prompt-config-output {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #prompt-config-output > section {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 320px) {
+  #prompt-config-output {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
