@@ -74,6 +74,22 @@ export function mountShell(root: HTMLElement, state: AppState): void {
         throw new Error("Home featured Preset preview is missing.");
       }
 
+      const foundSecondPreset = PRODUCT_PRESETS.find(
+        (preset) => preset.id === "product-p01",
+      );
+
+      if (!foundSecondPreset) {
+        throw new Error("Product Workflow Preset is missing.");
+      }
+
+      const foundSecondPreviewAsset = PRODUCT_PREVIEW_ASSETS.find(
+        (asset) => asset.id === foundSecondPreset.previewAssetId,
+      );
+
+      if (!foundSecondPreviewAsset) {
+        throw new Error("Product Workflow Preview Asset is missing.");
+      }
+
       content.innerHTML = `
             <section class="hero home-hero">
               <div class="hero-content">
@@ -101,28 +117,39 @@ export function mountShell(root: HTMLElement, state: AppState): void {
               <h2 id="workflows-heading">Start with a researched field.</h2>
               
               <div class="workflow-grid">
-                <article class="card">
-                  <p class="status">Available now</p>
-                  <h3>Product Advertising and Photography</h3>
-                  <p>
-                    Shape subject, light, material, setting and composition
-                    with domain-specific guidance.
-                  </p>
-                  <button type="button" data-screen="build">
-                  Open Product Workflow
-                  </button>
+                <article class="card workflow-card workflow-card--available">
+                  <div class="workflow-info">
+                    <p class="status">Available now</p>
+                    <h3>Product Advertising and Photography</h3>
+                    <p>
+                      Shape subject, light, material, setting and composition
+                      with domain-specific guidance.
+                    </p>
+                    <button class="primary" type="button" data-screen="build">
+                      Open Product Workflow
+                    </button>
+                  </div>
+
+                  <div class="workflow-preview">
+                    <img src="${foundPreviewAsset.src}" alt="${foundPreviewAsset.alt}" />
+                    <img src="${foundSecondPreviewAsset.src}" alt="${foundSecondPreviewAsset.alt}" />
+                  </div>
                 </article>
 
-                <article class="card">
-                  <p class="status">Research Pending</p>
-                  <h3>Portrait and Editorial</h3>
-                  <p>Not released until its fields and rules are researched.</p>
+                <article class="card workflow-card workflow-card--pending">
+                  <div class="workflow-info">
+                    <p class="status">Research Pending</p>
+                    <h3>Portrait and Editorial</h3>
+                    <p>Not released until its fields and rules are researched.</p>
+                  </div>
                 </article>
 
-                <article class="card">
-                  <p class="status">Research pending</p>
-                  <h3>Environment and Interior</h3>
-                  <p>Planned after the Product MVP.</p>
+                <article class="card workflow-card workflow-card--pending">
+                  <div class="workflow-info">
+                    <p class="status">Research pending</p>
+                    <h3>Environment and Interior</h3>
+                    <p>Planned after the Product MVP.</p>
+                  </div>
                 </article>
               </div>
             </section>

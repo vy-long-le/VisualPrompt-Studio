@@ -178,18 +178,74 @@ h1 {
   line-height: var(--line-lead);
 }
 
-.workflow-grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr;
-  gap: var(--space-4);
-}
-
 .card {
   min-width: 0;
   padding: var(--space-5);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-panel);
+}
+
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+.workflow-card--available {
+  /* * Give the released workflow room for its action and visual examples. */
+  grid-column: span 2;
+  grid-row: span 2;
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  gap: var(--space-5);
+  align-items: center;
+  background: var(--color-surface-strong);
+}
+
+.workflow-card--pending {
+  grid-column: 3;
+}
+
+.workflow-info,
+.workflow-preview {
+  min-width: 0;
+}
+
+.workflow-info > :first-child {
+  margin-top: 0;
+}
+
+.workflow-info h3 {
+  margin-block: var(--space-2) var(--space-3);
+}
+
+.workflow-info > p:not(.status) {
+  color: var(--color-text-muted);
+}
+
+.workflow-info button {
+  margin-top: var(--space-3);
+}
+
+.workflow-card--pending .status {
+  color: var(--color-text-muted);
+}
+
+.workflow-preview {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.workflow-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-control);
 }
 
 #prompt-config-output {
@@ -366,11 +422,16 @@ h1 {
 /* Responsive */
 @media (max-width: 1179px) {
   .workflow-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .card:first-child {
+  .workflow-card--available {
     grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .workflow-card--pending {
+    grid-column: auto;
   }
 }
 
@@ -408,11 +469,12 @@ h1 {
   }
 
   .workflow-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .card:first-child {
+  .workflow-card--available {
     grid-column: auto;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   #prompt-config-output {
