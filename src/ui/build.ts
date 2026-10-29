@@ -3,6 +3,7 @@ import { mountProductFields } from "./product-fields";
 import { PRODUCT_PRESETS } from "../catalogue";
 import { applyProductPreset } from "../app/presets";
 import { mountPresetPreview } from "../ui/preset-preview";
+import { generateProductPrompt } from "../app/generation";
 
 export const mountBuild = (root: HTMLElement, state: AppState): void => {
   root.innerHTML = `
@@ -23,7 +24,7 @@ export const mountBuild = (root: HTMLElement, state: AppState): void => {
         
         <div id="product-fields"></div>
         
-        <button type="button" class="primary" disabled>Generate</button>
+        <button type="button" class="primary" id="prompt-generate">Generate</button>
       </section>
 
       <section>
@@ -31,7 +32,7 @@ export const mountBuild = (root: HTMLElement, state: AppState): void => {
         <label 
         for="prompt-output">Prompt text</label>
         
-        <p id="prompt-status"></p>
+        <p id="prompt-status" role="status"></p>
         
         <textarea id="prompt-output"></textarea>
         
@@ -45,7 +46,9 @@ export const mountBuild = (root: HTMLElement, state: AppState): void => {
   const textareaPromptOutput =
     root.querySelector<HTMLTextAreaElement>("#prompt-output");
   const presetSelect = root.querySelector<HTMLSelectElement>("#preset-select");
-  const presetPreviewDiv = root.querySelector("#preset-preview");
+  const presetPreviewEle = root.querySelector("#preset-preview");
+  const generatePromptBtn = root.querySelector("#prompt-generate");
+  const copyPromptBtn = root.querySelector("#prompt-copy");
 
   if (!(inputPromptName instanceof HTMLInputElement)) {
     throw new Error("Build prompt-name input is missing or invalid.");
@@ -63,12 +66,20 @@ export const mountBuild = (root: HTMLElement, state: AppState): void => {
     throw new Error("Build prompt-output input is missing or invalid.");
   }
 
-  if (!presetSelect) {
+  if (!(presetSelect instanceof HTMLSelectElement)) {
     throw new Error("Build page preset-select is missing or invalid.");
   }
 
-  if (!presetPreviewDiv) {
+  if (!(presetPreviewEle instanceof HTMLElement)) {
     throw new Error("Preset preview asset block is missing or invalid.");
+  }
+
+  if (!(generatePromptBtn instanceof HTMLButtonElement)) {
+    throw new Error("Generate Prompt Button is missing or invalid.");
+  }
+
+  if (!(copyPromptBtn instanceof HTMLButtonElement)) {
+    throw new Error("Copy Prompt Button is missing or invalid.");
   }
 
   const startBlankOptEle = document.createElement("option");
@@ -96,10 +107,107 @@ export const mountBuild = (root: HTMLElement, state: AppState): void => {
     state.build.promptName = inputPromptName.value;
   });
 
-  statusPromptOutput.textContent = "No prompt generated yet";
-  textareaPromptOutput.value = "";
+  textareaPromptOutput.addEventListener("input", () => {
+    if (textareaPromptOutput.value === state.prompt.generatedPrompt) {
+      state.prompt.editedPrompt = null;
+    } else {
+      state.prompt.editedPrompt = textareaPromptOutput.value;
+    }
 
-  mountProductFields(productFieldsDiv, state);
+    if (state.prompt.freshness === "stale") {
+      statusPromptOutput.textContent =
+        "Configuration changed. Generate again to update this prompt. Not saved.";
+    } else if (state.prompt.editedPrompt !== null) {
+      statusPromptOutput.textContent = "Edited, not saved.";
+    } else if (state.prompt.freshness === "empty") {
+      statusPromptOutput.textContent = "No prompt generated yet.";
+    } else {
+      statusPromptOutput.textContent = "Generated, not saved.";
+    }
+
+    if (textareaPromptOutput.value !== "") {
+      copyPromptBtn.disabled = false;
+    } else {
+      copyPromptBtn.disabled = true;
+    }
+  });
+
+  if (state.prompt.editedPrompt === null) {
+    if (state.prompt.generatedPrompt === "") {
+      textareaPromptOutput.value = "";
+    } else {
+      textareaPromptOutput.value = state.prompt.generatedPrompt;
+    }
+  } else {
+    textareaPromptOutput.value = state.prompt.editedPrompt;
+  }
+
+  if (state.prompt.freshness === "stale") {
+    statusPromptOutput.textContent =
+      "Configuration changed. Generate again to update this prompt. Not saved.";
+  } else if (state.prompt.editedPrompt !== null) {
+    statusPromptOutput.textContent = "Edited, not saved.";
+  } else if (state.prompt.freshness === "empty") {
+    statusPromptOutput.textContent = "No prompt generated yet.";
+  } else {
+    statusPromptOutput.textContent = "Generated, not saved.";
+  }
+
+  generatePromptBtn.addEventListener("click", () => {
+    // ! Preserve the current output until generation succeeds.
+    if (state.prompt.editedPrompt !== null) {
+      const confirmed = window.confirm(
+        "There is a manually edited version of the prompt inside the textarea, clicking Generate will replace that edited version. Do you want to proceed?",
+      );
+
+      if (!confirmed) {
+        textareaPromptOutput.value = state.prompt.editedPrompt;
+        return;
+      }
+    }
+    try {
+      const result = generateProductPrompt(state.build.configuration);
+
+      if (result.ok === false) {
+        const messages: string[] = [];
+
+        for (const issue of result.issues) {
+          messages.push(issue.message);
+        }
+
+        statusPromptOutput.textContent = messages.join("\n");
+        return;
+      }
+
+      state.prompt.generatedPrompt = result.generatedPrompt;
+      state.prompt.editedPrompt = null;
+      state.prompt.freshness = "fresh";
+      textareaPromptOutput.value = state.prompt.generatedPrompt;
+      statusPromptOutput.textContent = "Generated, not saved";
+
+      if (textareaPromptOutput.value !== "") {
+        copyPromptBtn.disabled = false;
+      } else {
+        copyPromptBtn.disabled = true;
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
+      statusPromptOutput.textContent =
+        "Could not generate the prompt. Your existing text has been kept.";
+    }
+  });
+
+  const onConfigurationChange = (): void => {
+    if (state.prompt.generatedPrompt !== "") {
+      state.prompt.freshness = "stale";
+      statusPromptOutput.textContent =
+        "Configuration changed. Generate again to update this prompt. Not saved.";
+    }
+  };
+
+  mountProductFields(productFieldsDiv, state, onConfigurationChange);
   mountPresetPreview(root, state);
 
   presetSelect.addEventListener("change", () => {
@@ -124,8 +232,30 @@ export const mountBuild = (root: HTMLElement, state: AppState): void => {
       applyProductPreset(state, foundPreset.id);
     }
     productFieldsDiv.replaceChildren();
-    presetPreviewDiv.replaceChildren();
-    mountProductFields(productFieldsDiv, state);
+    presetPreviewEle.replaceChildren();
+    mountProductFields(productFieldsDiv, state, onConfigurationChange);
     mountPresetPreview(root, state);
+  });
+
+  if (textareaPromptOutput.value !== "") {
+    copyPromptBtn.disabled = false;
+  } else {
+    copyPromptBtn.disabled = true;
+  }
+
+  copyPromptBtn.addEventListener("click", async () => {
+    const prompt = textareaPromptOutput.value;
+
+    if (prompt !== "") {
+      try {
+        await navigator.clipboard.writeText(prompt);
+        statusPromptOutput.textContent = "Copied to clipboard.";
+      } catch (error) {
+        statusPromptOutput.textContent =
+          "Could not copy. Select the prompt text and copy it manually.";
+      }
+    } else {
+      statusPromptOutput.textContent = "There is no prompt text to copy.";
+    }
   });
 };

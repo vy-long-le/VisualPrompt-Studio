@@ -4,6 +4,7 @@ import { PRODUCT_FIELD_GROUPS, PRODUCT_FIELDS } from "../catalogue";
 export const mountProductFields = (
   root: HTMLElement,
   state: AppState,
+  onConfigurationChange: () => void,
 ): void => {
   for (const group of PRODUCT_FIELD_GROUPS) {
     const detailsEle = document.createElement("details");
@@ -44,17 +45,23 @@ export const mountProductFields = (
           textareaEle.addEventListener("input", () => {
             const currentValue = textareaEle.value;
 
-            const newValuesObject = {
-              ...state.build.configuration.values,
-              [fieldId]: currentValue,
-            };
+            if (currentValue !== state.build.configuration.values[fieldId]) {
+              const newValuesObject = {
+                ...state.build.configuration.values,
+                [fieldId]: currentValue,
+              };
 
-            const newConfigObject = {
-              ...state.build.configuration,
-              values: { ...newValuesObject },
-            };
+              const newConfigObject = {
+                ...state.build.configuration,
+                values: { ...newValuesObject },
+              };
 
-            state.build.configuration = newConfigObject;
+              state.build.configuration = newConfigObject;
+
+              onConfigurationChange();
+
+              return;
+            }
           });
 
           divEle.append(labelEle, textareaEle, pEle);
@@ -94,16 +101,22 @@ export const mountProductFields = (
           selectEle.addEventListener("change", () => {
             const currentValue = selectEle.value;
 
-            const newValuesObject = {
-              ...state.build.configuration.values,
-              [fieldId]: currentValue,
-            };
-            const newConfigObject = {
-              ...state.build.configuration,
-              values: { ...newValuesObject },
-            };
+            if (currentValue !== state.build.configuration.values[fieldId]) {
+              const newValuesObject = {
+                ...state.build.configuration.values,
+                [fieldId]: currentValue,
+              };
+              const newConfigObject = {
+                ...state.build.configuration,
+                values: { ...newValuesObject },
+              };
 
-            state.build.configuration = newConfigObject;
+              state.build.configuration = newConfigObject;
+
+              onConfigurationChange();
+
+              return;
+            }
           });
 
           divEle.append(labelEle, selectEle, pEle);
@@ -173,7 +186,63 @@ export const mountProductFields = (
           selectEle.addEventListener("change", () => {
             if (selectEle.value === "__custom__") {
               customDivEle.hidden = false;
+
               const customInputValue = customInputEle.value;
+
+              customInputEle.focus();
+
+              if (
+                customInputValue !== state.build.configuration.values[fieldId]
+              ) {
+                const newValuesObject = {
+                  ...state.build.configuration.values,
+                  [fieldId]: customInputValue,
+                };
+                const newConfigObject = {
+                  ...state.build.configuration,
+                  values: { ...newValuesObject },
+                };
+
+                state.build.configuration = newConfigObject;
+
+                onConfigurationChange();
+
+                return;
+              }
+            } else {
+              customDivEle.hidden = true;
+
+              if (selectEle.value === "") {
+                customInputEle.value = "";
+              }
+
+              const nextValue = selectEle.value;
+
+              if (nextValue !== state.build.configuration.values[fieldId]) {
+                const newValuesObject = {
+                  ...state.build.configuration.values,
+                  [fieldId]: nextValue,
+                };
+                const newConfigObject = {
+                  ...state.build.configuration,
+                  values: { ...newValuesObject },
+                };
+
+                state.build.configuration = newConfigObject;
+
+                onConfigurationChange();
+
+                return;
+              }
+            }
+          });
+
+          customInputEle.addEventListener("input", () => {
+            const customInputValue = customInputEle.value;
+
+            if (
+              customInputValue !== state.build.configuration.values[fieldId]
+            ) {
               const newValuesObject = {
                 ...state.build.configuration.values,
                 [fieldId]: customInputValue,
@@ -184,42 +253,11 @@ export const mountProductFields = (
               };
 
               state.build.configuration = newConfigObject;
-              customInputEle.focus();
-            } else {
-              customDivEle.hidden = true;
 
-              if (selectEle.value === "") {
-                customInputEle.value = "";
-              }
+              onConfigurationChange();
 
-              const nextValue = selectEle.value;
-
-              const newValuesObject = {
-                ...state.build.configuration.values,
-                [fieldId]: nextValue,
-              };
-              const newConfigObject = {
-                ...state.build.configuration,
-                values: { ...newValuesObject },
-              };
-
-              state.build.configuration = newConfigObject;
+              return;
             }
-          });
-
-          customInputEle.addEventListener("input", () => {
-            const customInputValue = customInputEle.value;
-
-            const newValuesObject = {
-              ...state.build.configuration.values,
-              [fieldId]: customInputValue,
-            };
-            const newConfigObject = {
-              ...state.build.configuration,
-              values: { ...newValuesObject },
-            };
-
-            state.build.configuration = newConfigObject;
           });
 
           customDivEle.append(customLabelEle, customInputEle);

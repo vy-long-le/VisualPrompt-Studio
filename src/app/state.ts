@@ -8,6 +8,11 @@ export interface AppState {
   view: {
     screen: Screen;
   };
+  prompt: {
+    generatedPrompt: string;
+    editedPrompt: string | null;
+    freshness: "empty" | "fresh" | "stale";
+  };
   build: {
     promptName: string;
     activePresetId: ProductPresetId | null;
@@ -19,6 +24,11 @@ export function createInitialState(): AppState {
   return {
     view: {
       screen: "home",
+    },
+    prompt: {
+      generatedPrompt: "",
+      editedPrompt: null,
+      freshness: "empty",
     },
     build: {
       promptName: "",

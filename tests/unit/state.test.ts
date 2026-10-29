@@ -11,6 +11,11 @@ describe("UX-01 initial application state", () => {
       view: {
         screen: "home",
       },
+      prompt: {
+        generatedPrompt: "",
+        editedPrompt: null,
+        freshness: "empty",
+      },
       build: {
         promptName: "",
         activePresetId: null,
@@ -26,6 +31,11 @@ describe("UX-01 initial application state", () => {
       view: {
         screen: "home",
       },
+      prompt: {
+        generatedPrompt: "",
+        editedPrompt: null,
+        freshness: "empty",
+      },
       build: {
         promptName: "",
         activePresetId: null,
@@ -39,6 +49,7 @@ describe("UX-01 initial application state", () => {
 
     expect(firstState).not.toBe(secondState);
     expect(firstState.view).not.toBe(secondState.view);
+    expect(firstState.prompt).not.toBe(secondState.prompt);
     expect(firstState.build).not.toBe(secondState.build);
     expect(firstState.build.configuration).not.toBe(
       secondState.build.configuration,

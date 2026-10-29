@@ -1,6 +1,7 @@
 import type { Screen, AppState } from "../app/state";
 import { createIcons, House, PencilLine } from "lucide";
 import { mountBuild } from "./build";
+import { PRODUCT_PRESETS, PRODUCT_PREVIEW_ASSETS } from "../catalogue";
 
 export function mountShell(root: HTMLElement, state: AppState): void {
   root.innerHTML = `
@@ -57,17 +58,43 @@ export function mountShell(root: HTMLElement, state: AppState): void {
     if (!content) return;
 
     if (state.view.screen === "home") {
-      content.innerHTML = `
-            <section class="hero">
-              <p class="eyebrow">Creative direction, made operational</p>
-              <h1 tabindex="-1">Build prompts with a point of view.</h1>
-              <p class="lead">
-                Choose a researched Workflow, start from a visual Preset,
-                then shape the details into a prompt you can save,
-                explain and reuse.
-              </p>
+      const foundPreset = PRODUCT_PRESETS.find(
+        (preset) => preset.id === "product-p02",
+      );
 
-              <button class="primary" type="button" data-screen="build">Start Building</button>
+      if (!foundPreset) {
+        throw new Error("Home featured preset is missing.");
+      }
+
+      const foundPreviewAsset = PRODUCT_PREVIEW_ASSETS.find(
+        (asset) => asset.id === foundPreset.previewAssetId,
+      );
+
+      if (!foundPreviewAsset) {
+        throw new Error("Home featured Preset preview is missing.");
+      }
+
+      content.innerHTML = `
+            <section class="hero home-hero">
+              <div class="hero-content">
+                <p class="eyebrow">Creative direction, made operational</p>
+                <h1 tabindex="-1">Build prompts with a point of view.</h1>
+                <p class="lead">
+                  Choose a researched Workflow, start from a visual Preset,
+                  then shape the details into a prompt you can save,
+                  explain and reuse.
+                </p>
+
+                <button class="primary" type="button" data-screen="build">Start Building</button>
+              </div>
+              <figure class="hero-image">
+                <img src="${foundPreviewAsset.src}" alt="${foundPreviewAsset.alt}" />
+                <figcaption class="home-hero-caption">
+                  <strong>${foundPreset.name}</strong>
+                  <p>${foundPreviewAsset.creativeIntent}</p>
+                  <p>${foundPreviewAsset.disclaimer}</p>
+                </figcaption>
+              </figure>
             </section>
 
             <section aria-labelledby="workflows-heading">

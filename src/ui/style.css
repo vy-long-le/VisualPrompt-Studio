@@ -312,6 +312,58 @@ h1 {
   overflow-wrap: anywhere;
 }
 
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: var(--space-7);
+}
+
+.home-hero > * {
+  min-width: 0;
+}
+
+.home-hero .hero-image {
+  position: relative;
+  margin: 0;
+}
+
+.home-hero .hero-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-panel);
+}
+
+.home-hero-caption {
+  /* * Anchor the reference caption to the image wrapper. */
+  position: absolute;
+  bottom: var(--space-4);
+  left: var(--space-4);
+  right: var(--space-4);
+
+  padding: var(--space-4);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+
+  font-size: var(--text-small);
+  line-height: var(--line-body);
+  overflow-wrap: anywhere;
+}
+
+.home-hero-caption strong {
+  display: block;
+  font-size: var(--text-body);
+}
+
+.home-hero-caption p {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+}
+
+/* Responsive */
 @media (max-width: 1179px) {
   .workflow-grid {
     grid-template-columns: 1fr 1fr;
@@ -319,6 +371,19 @@ h1 {
 
   .card:first-child {
     grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 63.9375rem) {
+  .home-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+  }
+
+  .home-hero-caption {
+    /* * Keep the full caption readable below the image on narrow screens. */
+    position: static;
+    margin-top: var(--space-3);
   }
 }
 
