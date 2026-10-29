@@ -1,7 +1,16 @@
 import type { Screen, AppState } from "../app/state";
 import { createIcons, House, PencilLine } from "lucide";
 import { mountBuild } from "./build";
-import { PRODUCT_PRESETS, PRODUCT_PREVIEW_ASSETS } from "../catalogue";
+import {
+  PRODUCT_PRESETS,
+  PRODUCT_PREVIEW_ASSETS,
+  PRODUCT_WORKFLOW,
+} from "../catalogue";
+import type {
+  ProductPresetDefinition,
+  ProductPreviewAssetDefinition,
+} from "../catalogue";
+import { applyProductPreset } from "../app/presets";
 
 export function mountShell(root: HTMLElement, state: AppState): void {
   root.innerHTML = `
@@ -153,7 +162,94 @@ export function mountShell(root: HTMLElement, state: AppState): void {
                 </article>
               </div>
             </section>
+
+            <section>
+              <h2>See the direction before you configure.</h2>
+              <div class="featured-presets">
+              </div>
+            </section>
           `;
+
+      const featuredPresetsDivEle = content.querySelector(".featured-presets");
+
+      if (!featuredPresetsDivEle) {
+        throw new Error("Featured Presets block is missing.");
+      }
+
+      const foundPresets: ProductPresetDefinition[] = PRODUCT_PRESETS.filter(
+        (preset) => preset.previewAssetId !== null,
+      );
+
+      if (foundPresets.length === 0) {
+        throw new Error("Can not find any preset that has a previewAssetId");
+      }
+
+      const foundPreviewAssets: ProductPreviewAssetDefinition[] = [];
+
+      for (const asset of PRODUCT_PREVIEW_ASSETS) {
+        for (const preset of foundPresets) {
+          if (preset.previewAssetId === asset.id) {
+            foundPreviewAssets.push(asset);
+          }
+        }
+      }
+
+      if (foundPreviewAssets.length === 0) {
+        throw new Error(
+          "Can not find any preview asset that match the preset previewAssetId",
+        );
+      }
+
+      let featuredPresetCards: string = "";
+
+      for (const preset of foundPresets) {
+        for (const asset of foundPreviewAssets) {
+          if (preset.previewAssetId === asset.id) {
+            featuredPresetCards += `
+          <article class="featured-preset-card">
+            <figure class="featured-preset-image">
+              <img src="${asset.src}" alt="${asset.alt}" />
+              <figcaption>${asset.disclaimer}</figcaption>
+            </figure>
+
+            <div class="featured-preset-content">
+              <p>${PRODUCT_WORKFLOW.name}</p>
+              <h3>${preset.name}</h3>
+              <p>${preset.creativeDirection}</p>
+              <button type="button" class="primary" data-id="${preset.id}">Apply</button>
+            </div>
+          </article>
+        `;
+          } else {
+            continue;
+          }
+        }
+      }
+
+      featuredPresetsDivEle.innerHTML = featuredPresetCards;
+
+      featuredPresetsDivEle.addEventListener("click", (event) => {
+        if (!(event.target instanceof Element)) return;
+
+        const button =
+          event.target.closest<HTMLButtonElement>("button[data-id]");
+
+        if (!button || !featuredPresetsDivEle.contains(button)) return;
+
+        const id = button.dataset.id;
+
+        const foundPreset = PRODUCT_PRESETS.find((preset) => preset.id === id);
+
+        if (!foundPreset) return;
+
+        if (state.prompt.generatedPrompt !== "") {
+          state.prompt.freshness = "stale";
+        }
+
+        state.view.screen = "build";
+        applyProductPreset(state, foundPreset.id);
+        renderScreen(true);
+      });
     } else {
       mountBuild(content, state);
     }

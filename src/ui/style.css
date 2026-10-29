@@ -419,6 +419,79 @@ h1 {
   color: var(--color-text-muted);
 }
 
+.featured-presets {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+  margin-block: var(--space-5) var(--space-7);
+}
+
+.featured-preset-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--color-surface-strong);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+}
+
+.featured-preset-image {
+  margin: 0;
+}
+
+.featured-preset-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-panel) var(--radius-panel) 0 0;
+}
+
+.featured-preset-image figcaption {
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--text-small);
+  line-height: var(--line-body);
+  overflow-wrap: anywhere;
+}
+
+.featured-preset-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-5);
+}
+
+.featured-preset-content > p,
+.featured-preset-content > h3 {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.featured-preset-content > p {
+  color: var(--color-text-muted);
+}
+
+.featured-preset-content > p:first-child {
+  color: var(--color-accent);
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+.featured-preset-content > h3 {
+  font-size: var(--text-lead);
+  line-height: var(--line-body);
+}
+
+.featured-preset-content > button {
+  /* * Keep Apply near the card's bottom when descriptions vary in length. */
+  margin-top: auto;
+  align-self: flex-start;
+}
+
 /* Responsive */
 @media (max-width: 1179px) {
   .workflow-grid {
@@ -432,6 +505,10 @@ h1 {
 
   .workflow-card--pending {
     grid-column: auto;
+  }
+
+  .featured-presets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -483,6 +560,10 @@ h1 {
 
   #prompt-config-output > section {
     padding: var(--space-4);
+  }
+
+  .featured-presets {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
